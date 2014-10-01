@@ -48,7 +48,6 @@ class CacheableResultAnnotationDriver implements DriverInterface {
         foreach ($class->getMethods() as $method) {
             $metadata = new CacheableResultMetadata($class->getName(), $method->getName());
 
-            var_dump($this->reader->getMethodAnnotations($method));exit;
             $annotation = $this->reader->getMethodAnnotation(
                 $method,
                 'Snc\\RedisBundle\\Annotation\\CacheableResult'
