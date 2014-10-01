@@ -65,7 +65,6 @@ class Configuration implements ConfigurationInterface
 
         $this->addClientsSection($rootNode);
         $this->addSessionSection($rootNode);
-        $this->addDoctrineSection($rootNode);
         $this->addMonologSection($rootNode);
         $this->addSwiftMailerSection($rootNode);
 
@@ -167,44 +166,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end();
-    }
-
-    /**
-     * Adds the snc_redis.doctrine configuration
-     *
-     * @param ArrayNodeDefinition $rootNode
-     */
-    private function addDoctrineSection(ArrayNodeDefinition $rootNode)
-    {
-        $doctrineNode = $rootNode->children()->arrayNode('doctrine')->canBeUnset();
-        foreach (array('metadata_cache', 'result_cache', 'query_cache') as $type) {
-            $doctrineNode
-                ->children()
-                    ->arrayNode($type)
-                        ->canBeUnset()
-                        ->children()
-                            ->scalarNode('client')->isRequired()->end()
-                            ->scalarNode('namespace')->defaultNull()->end()
-                        ->end()
-                        ->fixXmlConfig('entity_manager')
-                        ->children()
-                            ->arrayNode('entity_managers')
-                                ->defaultValue(array())
-                                ->beforeNormalization()->ifString()->then(function($v) { return (array) $v; })->end()
-                                ->prototype('scalar')->end()
-                            ->end()
-                        ->end()
-                        ->fixXmlConfig('document_manager')
-                        ->children()
-                            ->arrayNode('document_managers')
-                                ->defaultValue(array())
-                                ->beforeNormalization()->ifString()->then(function($v) { return (array) $v; })->end()
-                                ->prototype('scalar')->end()
-                            ->end()
-                        ->end()
-                    ->end()
-                ->end();
-        }
     }
 
     /**

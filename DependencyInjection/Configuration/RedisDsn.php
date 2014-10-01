@@ -157,6 +157,8 @@ class RedisDsn
 
     /**
      * @param string $dsn
+     *
+     * todo : should use php parse url to parse redis uri
      */
     protected function parseDsn($dsn)
     {

@@ -54,10 +54,6 @@ class SncRedisExtension extends Extension
             $this->loadSession($config, $container, $loader);
         }
 
-        if (isset($config['doctrine']) && count($config['doctrine'])) {
-            $this->loadDoctrine($config, $container);
-        }
-
         if (isset($config['monolog'])) {
             if (!empty($config['clients'][$config['monolog']['client']]['logging'])) {
                 throw new InvalidConfigurationException(sprintf('You have to disable logging for the client "%s" that you have configured under "snc_redis.monolog.client"', $config['monolog']['client']));
@@ -308,37 +304,6 @@ class SncRedisExtension extends Extension
 
         if ($config['session']['use_as_default']) {
             $container->setAlias('session.handler', 'snc_redis.session.handler');
-        }
-    }
-
-    /**
-     * Loads the Doctrine configuration.
-     *
-     * @param array            $config    A configuration array
-     * @param ContainerBuilder $container A ContainerBuilder instance
-     */
-    protected function loadDoctrine(array $config, ContainerBuilder $container)
-    {
-        foreach ($config['doctrine'] as $name => $cache) {
-            $client = new Reference(sprintf('snc_redis.%s_client', $cache['client']));
-            foreach ($cache['entity_managers'] as $em) {
-                $def = new Definition($container->getParameter('snc_redis.doctrine_cache.class'));
-                $def->setScope(ContainerInterface::SCOPE_CONTAINER);
-                $def->addMethodCall('setRedis', array($client));
-                if ($cache['namespace']) {
-                    $def->addMethodCall('setNamespace', array($cache['namespace']));
-                }
-                $container->setDefinition(sprintf('doctrine.orm.%s_%s', $em, $name), $def);
-            }
-            foreach ($cache['document_managers'] as $dm) {
-                $def = new Definition($container->getParameter('snc_redis.doctrine_cache.class'));
-                $def->setScope(ContainerInterface::SCOPE_CONTAINER);
-                $def->addMethodCall('setRedis', array($client));
-                if ($cache['namespace']) {
-                    $def->addMethodCall('setNamespace', array($cache['namespace']));
-                }
-                $container->setDefinition(sprintf('doctrine_mongodb.odm.%s_%s', $dm, $name), $def);
-            }
         }
     }
 
