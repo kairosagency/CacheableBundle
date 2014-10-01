@@ -12,7 +12,6 @@ use Metadata\Driver\DriverInterface;
 use Metadata\MergeableClassMetadata;
 use Doctrine\Common\Annotations\Reader;
 use Snc\RedisBundle\Metadata\CacheableResultMetadata;
-use Snc\RedisBundle\Metadata\PropertyMetadata;
 
 class CacheableResultAnnotationDriver implements DriverInterface {
     private $reader;
@@ -26,24 +25,6 @@ class CacheableResultAnnotationDriver implements DriverInterface {
     {
         $classMetadata = new MergeableClassMetadata($class->getName());
 
-        foreach ($class->getProperties() as $reflectionProperty) {
-            $propertyMetadata = new PropertyMetadata($class->getName(), $reflectionProperty->getName());
-            var_dump($propertyMetadata);
-            $annotation = $this->reader->getPropertyAnnotation(
-                $reflectionProperty,
-                'Snc\\RedisBundle\\Annotation\\CacheableResult'
-            );
-
-            if (null !== $annotation) {
-                // a "@DefaultValue" annotation was found
-                $propertyMetadata->ttl = $annotation->ttl;
-            }
-
-            $classMetadata->addPropertyMetadata($propertyMetadata);
-        }
-
-
-        var_dump($class->getMethods());
 
         foreach ($class->getMethods() as $method) {
             $metadata = new CacheableResultMetadata($class->getName(), $method->getName());
