@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Snc\RedisBundle\CacheProvider;
+namespace Kairos\CacheBundle\CacheProvider;
 
 
 abstract class SimpleCacheAbstractProvider

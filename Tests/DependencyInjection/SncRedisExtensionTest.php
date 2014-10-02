@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle\Tests\DependencyInjection;
+namespace Kairos\CacheBundle\Tests\DependencyInjection;
 
-use Snc\RedisBundle\DependencyInjection\Configuration\Configuration;
-use Snc\RedisBundle\DependencyInjection\Configuration\RedisDsn;
-use Snc\RedisBundle\DependencyInjection\SncRedisExtension;
+use Kairos\CacheBundle\DependencyInjection\Configuration\Configuration;
+use Kairos\CacheBundle\DependencyInjection\Configuration\RedisDsn;
+use Kairos\CacheBundle\DependencyInjection\SncRedisExtension;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -38,13 +38,13 @@ class SncRedisExtensionTest extends \PHPUnit_Framework_TestCase
             array('snc_redis.client.class', 'Predis\Client'),
             array('snc_redis.client_options.class', 'Predis\Option\ClientOptions'),
             array('snc_redis.connection_parameters.class', 'Predis\Connection\ConnectionParameters'),
-            array('snc_redis.connection_factory.class', 'Snc\RedisBundle\Client\Predis\Connection\ConnectionFactory'),
-            array('snc_redis.connection_wrapper.class', 'Snc\RedisBundle\Client\Predis\Connection\ConnectionWrapper'),
-            array('snc_redis.logger.class', 'Snc\RedisBundle\Logger\RedisLogger'),
-            array('snc_redis.data_collector.class', 'Snc\RedisBundle\DataCollector\RedisDataCollector'),
-            array('snc_redis.doctrine_cache.class', 'Snc\RedisBundle\Doctrine\Cache\RedisCache'),
+            array('snc_redis.connection_factory.class', 'Kairos\CacheBundle\Client\Predis\Connection\ConnectionFactory'),
+            array('snc_redis.connection_wrapper.class', 'Kairos\CacheBundle\Client\Predis\Connection\ConnectionWrapper'),
+            array('snc_redis.logger.class', 'Kairos\CacheBundle\Logger\RedisLogger'),
+            array('snc_redis.data_collector.class', 'Kairos\CacheBundle\DataCollector\RedisDataCollector'),
+            array('snc_redis.doctrine_cache.class', 'Kairos\CacheBundle\Doctrine\Cache\RedisCache'),
             array('snc_redis.monolog_handler.class', 'Monolog\Handler\RedisHandler'),
-            array('snc_redis.swiftmailer_spool.class', 'Snc\RedisBundle\SwiftMailer\RedisSpool'),
+            array('snc_redis.swiftmailer_spool.class', 'Kairos\CacheBundle\SwiftMailer\RedisSpool'),
         );
     }
 
@@ -310,7 +310,7 @@ clients:
             read_write_timeout: 30
             iterable_multibulk: false
             throw_errors: true
-            cluster: Snc\RedisBundle\Client\Predis\Connection\PredisCluster
+            cluster: Kairos\CacheBundle\Client\Predis\Connection\PredisCluster
             replication: false
 session:
     client: default

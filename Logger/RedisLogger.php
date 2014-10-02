@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle\Logger;
+namespace Kairos\CacheBundle\Logger;
 
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 

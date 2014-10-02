@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle\CacheProvider;
+namespace Kairos\CacheBundle\CacheProvider;
 
 /**
  * Redis based session storage with session locking support

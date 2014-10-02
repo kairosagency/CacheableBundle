@@ -6,8 +6,8 @@
  * Time: 10:58
  */
 
-namespace Snc\RedisBundle\Tests\Metadata;
-use Snc\RedisBundle\Annotation\CacheableResult;
+namespace Kairos\CacheBundle\Tests\Metadata;
+use Kairos\CacheBundle\Annotation\CacheableResult;
 
 
 

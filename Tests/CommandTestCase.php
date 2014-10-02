@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle\Tests;
+namespace Kairos\CacheBundle\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 
@@ -32,7 +32,7 @@ abstract class CommandTestCase extends \PHPUnit_Framework_TestCase
     protected $predisClient;
 
     /**
-     * @var \Snc\RedisBundle\Client\Phpredis\Client
+     * @var \Kairos\CacheBundle\Client\Phpredis\Client
      */
     protected $phpredisClient;
 

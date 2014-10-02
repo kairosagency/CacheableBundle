@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle\Tests\DependencyInjection\Configuration;
+namespace Kairos\CacheBundle\Tests\DependencyInjection\Configuration;
 
-use Snc\RedisBundle\DependencyInjection\Configuration\RedisDsn;
+use Kairos\CacheBundle\DependencyInjection\Configuration\RedisDsn;
 
 /**
  * RedisDsnTest

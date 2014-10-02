@@ -12,7 +12,7 @@
 namespace Doctrine\Tests\Common\Cache;
 
 use Doctrine\Tests\Common\Cache\CacheTest;
-use Snc\RedisBundle\Doctrine\Cache\RedisCache;
+use Kairos\CacheBundle\Doctrine\Cache\RedisCache;
 
 /**
  * RedisCacheTest

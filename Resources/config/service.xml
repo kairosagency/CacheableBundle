@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="kairos_cache.apc.class">Doctrine\Common\Cache\ApcCache</parameter>
+        <parameter key="kairos_cache.array.class">Doctrine\Common\Cache\ArrayCache</parameter>
+        <parameter key="kairos_cache.file_system.class">Doctrine\Common\Cache\FilesystemCache</parameter>
+        <parameter key="kairos_cache.php_file.class">Doctrine\Common\Cache\PhpFileCache</parameter>
+        <parameter key="kairos_cache.mongodb.class">Doctrine\Common\Cache\MongoDBCache</parameter>
+        <parameter key="kairos_cache.mongodb.collection.class">MongoCollection</parameter>
+        <parameter key="kairos_cache.mongodb.connection.class">MongoClient</parameter>
+        <parameter key="kairos_cache.mongodb.server">localhost:27017</parameter>
+        <parameter key="kairos_cache.riak.class">Doctrine\Common\Cache\RiakCache</parameter>
+        <parameter key="kairos_cache.riak.bucket.class">Riak\Bucket</parameter>
+        <parameter key="kairos_cache.riak.connection.class">Riak\Connection</parameter>
+        <parameter key="kairos_cache.riak.bucket_property_list.class">Riak\BucketPropertyList</parameter>
+        <parameter key="kairos_cache.riak.host">localhost</parameter>
+        <parameter key="kairos_cache.riak.port">8087</parameter>
+        <parameter key="kairos_cache.memcache.class">Doctrine\Common\Cache\MemcacheCache</parameter>
+        <parameter key="kairos_cache.memcache.connection.class">Memcache</parameter>
+        <parameter key="kairos_cache.memcache.host">localhost</parameter>
+        <parameter key="kairos_cache.memcache.port">11211</parameter>
+        <parameter key="kairos_cache.memcached.class">Doctrine\Common\Cache\MemcachedCache</parameter>
+        <parameter key="kairos_cache.memcached.connection.class">Memcached</parameter>
+        <parameter key="kairos_cache.memcached.host">localhost</parameter>
+        <parameter key="kairos_cache.memcached.port">11211</parameter>
+        <parameter key="kairos_cache.redis.class">Doctrine\Common\Cache\RedisCache</parameter>
+        <parameter key="kairos_cache.redis.connection.class">Redis</parameter>
+        <parameter key="kairos_cache.redis.host">localhost</parameter>
+        <parameter key="kairos_cache.redis.port">6379</parameter>
+        <parameter key="kairos_cache.couchbase.class">Doctrine\Common\Cache\CouchbaseCache</parameter>
+        <parameter key="kairos_cache.couchbase.connection.class">Couchbase</parameter>
+        <parameter key="kairos_cache.couchbase.hostnames">localhost:8091</parameter>
+        <parameter key="kairos_cache.wincache.class">Doctrine\Common\Cache\WinCacheCache</parameter>
+        <parameter key="kairos_cache.xcache.class">Doctrine\Common\Cache\XcacheCache</parameter>
+        <parameter key="kairos_cache.zenddata.class">Doctrine\Common\Cache\ZendDataCache</parameter>
+        <parameter key="kairos_cache.security.acl.cache.class">Doctrine\Bundle\DoctrineCacheBundle\Acl\Model\AclCache</parameter>
+    </parameters>
+
+    <services>
+        <service id="kairos_cache.abstract.apc" class="%kairos_cache.apc.class%" abstract="true" />
+        <service id="kairos_cache.abstract.array" class="%kairos_cache.array.class%" abstract="true" />
+        <service id="kairos_cache.abstract.file_system" class="%kairos_cache.file_system.class%" abstract="true" />
+        <service id="kairos_cache.abstract.php_file" class="%kairos_cache.php_file.class%" abstract="true" />
+        <service id="kairos_cache.abstract.memcache" class="%kairos_cache.memcache.class%" abstract="true" />
+        <service id="kairos_cache.abstract.memcached" class="%kairos_cache.memcached.class%" abstract="true" />
+        <service id="kairos_cache.abstract.redis" class="%kairos_cache.redis.class%" abstract="true" />
+        <service id="kairos_cache.abstract.wincache" class="%kairos_cache.wincache.class%" abstract="true" />
+        <service id="kairos_cache.abstract.xcache" class="%kairos_cache.xcache.class%" abstract="true" />
+        <service id="kairos_cache.abstract.zenddata" class="%kairos_cache.zenddata.class%" abstract="true" />
+        <service id="kairos_cache.abstract.mongodb" class="%kairos_cache.mongodb.class%" abstract="true" />
+        <service id="kairos_cache.abstract.riak" class="%kairos_cache.riak.class%" abstract="true" />
+        <service id="kairos_cache.abstract.couchbase" class="%kairos_cache.couchbase.class%" abstract="true" />
+    </services>
+
+</container>

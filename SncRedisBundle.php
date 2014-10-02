@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle;
+namespace Kairos\CacheBundle;
 
-use Snc\RedisBundle\DependencyInjection\Compiler\LoggingPass;
-use Snc\RedisBundle\DependencyInjection\Compiler\MonologPass;
+use Kairos\CacheBundle\DependencyInjection\Compiler\LoggingPass;
+use Kairos\CacheBundle\DependencyInjection\Compiler\MonologPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

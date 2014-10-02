@@ -3,16 +3,45 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="kairos.cacheBundle.metadata_factory.class">Metadata\MetadataFactory</parameter>
-        <parameter key="kairos.cacheBundle.metadata.annotation_driver.class">Snc\RedisBundle\Metadata\Driver\CacheableResultAnnotationDriver</parameter>
+        <parameter key="kairos_cache.metadata_factory.class">Metadata\MetadataFactory</parameter>
+        <parameter key="kairos_cache.metadata.file_locator_class">Metadata\Driver\FileLocator</parameter>
+        <parameter key="kairos_cache.metadata.driver_chain.class">Metadata\Driver\DriverChain</parameter>
+
+        <parameter key="kairos_cache.metadata.annotation_driver.class">Kairos\CacheBundle\Metadata\Driver\CacheableResultAnnotationDriver</parameter>
+        <parameter key="kairos_cache.metadata.yaml_driver.class">Kairos\CacheBundle\Metadata\Driver\CacheableResultYamlDriver</parameter>
     </parameters>
 
     <services>
-        <service id="matthias_annotation.metadata.annotation_driver" class="%kairos.cacheBundle.metadata.annotation_driver.class%" public="false">
+
+        <!-- Parse annotation -->
+        <service id="kairos_cache.metadata.annotation_driver" class="%kairos_cache.metadata.annotation_driver.class%" public="false">
             <argument type="service" id="annotation_reader" />
         </service>
-        <service id="matthias_annotation.metadata_factory" class="%kairos.cacheBundle.metadata_factory.class%" public="false">
-            <argument type="service" id="kairos.cacheBundle.metadata.annotation_driver" />
+
+
+        <!-- Yaml section : we use a file locator to get yaml files and then parse them -->
+        <service id="kairos_cache.metadata.file_locator" class="%kairos_cache.metadata.file_locator_class%">
+            <argument />
+        </service>
+        <service id="kairos_cache.metadata.yaml_driver" class="%kairos_cache.metadata.yaml_driver.class%" public="false">
+            <argument type="service" id="kairos_cache.metadata.file_locator" />
+        </service>
+
+
+        <!-- Merge annotations and yaml results -->
+        <service id="kairos_cache.driver_chain" class="%kairos_cache.metadata.driver_chain.class%">
+            <argument type="collection">
+                <argument type="service" id="kairos_cache.metadata.yaml_driver" />
+                <argument type="service" id="kairos_cache.metadata.annotation_driver" />
+            </argument>
+        </service>
+
+
+        <service id="kairos_cache.metadata_factory" class="%kairos_cache.metadata_factory.class%" public="false">
+            <argument type="service" id="kairos_cache.driver_chain" />
+            <call method="setCache">
+                <argument type="service" id="kairos_cache.default_cache" />
+            </call>
         </service>
     </services>
 </container>

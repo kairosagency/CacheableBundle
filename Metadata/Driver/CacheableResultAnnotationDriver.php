@@ -6,12 +6,12 @@
  * Time: 16:25
  */
 
-namespace Snc\RedisBundle\Metadata\Driver;
+namespace Kairos\CacheBundle\Metadata\Driver;
 
 use Metadata\Driver\DriverInterface;
 use Metadata\MergeableClassMetadata;
 use Doctrine\Common\Annotations\Reader;
-use Snc\RedisBundle\Metadata\CacheableResultMetadata;
+use Kairos\CacheBundle\Metadata\CacheableResultMetadata;
 
 class CacheableResultAnnotationDriver implements DriverInterface {
     private $reader;

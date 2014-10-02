@@ -1,8 +1,8 @@
 <?php
 
-namespace Snc\RedisBundle\Tests\Client\Phpredis;
+namespace Kairos\CacheBundle\Tests\Client\Phpredis;
 
-use Snc\RedisBundle\Client\Phpredis\Client;
+use Kairos\CacheBundle\Client\Phpredis\Client;
 
 /**
  * ClientTest
@@ -10,12 +10,12 @@ use Snc\RedisBundle\Client\Phpredis\Client;
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Snc\RedisBundle\Client\Phpredis\Client::getCommandString
+     * @covers \Kairos\CacheBundle\Client\Phpredis\Client::getCommandString
      */
     public function testGetCommandString()
     {
         $method = new \ReflectionMethod(
-            '\Snc\RedisBundle\Client\Phpredis\Client', 'getCommandString'
+            '\Kairos\CacheBundle\Client\Phpredis\Client', 'getCommandString'
         );
 
         $method->setAccessible(true);
@@ -24,25 +24,25 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $arguments = array(array('chuck', 'norris'));
 
         $this->assertEquals(
-            'FOO chuck norris', $method->invoke(new \Snc\RedisBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
+            'FOO chuck norris', $method->invoke(new \Kairos\CacheBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
         );
 
         $arguments = array('chuck:norris');
 
         $this->assertEquals(
-            'FOO chuck:norris', $method->invoke(new \Snc\RedisBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
+            'FOO chuck:norris', $method->invoke(new \Kairos\CacheBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
         );
 
         $arguments = array('chuck:norris fab:pot');
 
         $this->assertEquals(
-            'FOO chuck:norris fab:pot', $method->invoke(new \Snc\RedisBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
+            'FOO chuck:norris fab:pot', $method->invoke(new \Kairos\CacheBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
         );
 
         $arguments = array('foo' => 'bar', 'baz' => null);
 
         $this->assertEquals(
-            'FOO foo bar baz <null>', $method->invoke(new \Snc\RedisBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
+            'FOO foo bar baz <null>', $method->invoke(new \Kairos\CacheBundle\Client\Phpredis\Client(array('alias' => 'bar')), $name, $arguments)
         );
     }
 }

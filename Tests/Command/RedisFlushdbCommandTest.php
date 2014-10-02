@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle\Tests\Command;
+namespace Kairos\CacheBundle\Tests\Command;
 
 use Symfony\Component\Console\Tester\CommandTester;
-use Snc\RedisBundle\Command\RedisFlushdbCommand;
-use Snc\RedisBundle\Tests\CommandTestCase;
+use Kairos\CacheBundle\Command\RedisFlushdbCommand;
+use Kairos\CacheBundle\Tests\CommandTestCase;
 
 /**
  * RedisFlushdbCommandTest

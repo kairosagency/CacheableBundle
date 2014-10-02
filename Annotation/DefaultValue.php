@@ -6,7 +6,7 @@
  * Time: 11:22
  */
 
-namespace Snc\RedisBundle\Annotation;
+namespace Kairos\CacheBundle\Annotation;
 
 /**
  * @Annotation

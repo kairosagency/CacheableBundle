@@ -92,7 +92,7 @@ Please follow the following steps to update your Symfony2 project.
 
 #### Update your kernel class ####
 
-Replace `new Snc\RedisBundle\RedisBundle()` with `new Snc\RedisBundle\SncRedisBundle()`.
+Replace `new Kairos\CacheBundle\RedisBundle()` with `new Kairos\CacheBundle\SncRedisBundle()`.
 
 #### Update your config files ####
 

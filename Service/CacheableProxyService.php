@@ -6,7 +6,7 @@
  * Time: 14:47
  */
 
-namespace Snc\RedisBundle\Service;
+namespace Kairos\CacheBundle\Service;
 
 use Metadata\MergeableClassMetadata;
 

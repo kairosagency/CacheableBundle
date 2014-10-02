@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Snc\RedisBundle\Tests\Session\Storage\Handler;
+namespace Kairos\CacheBundle\Tests\Session\Storage\Handler;
 
-use Snc\RedisBundle\Session\Storage\Handler\RedisSessionHandler;
+use Kairos\CacheBundle\Session\Storage\Handler\RedisSessionHandler;
 
 /**
  * RedisSessionHandlerTest
