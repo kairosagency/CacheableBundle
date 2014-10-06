@@ -20,10 +20,16 @@ class CacheableResult {
     public $ttl;
 
     /**
+     * @var null|string
+     */
+    public $cacheProvider;
+
+    /**
      * @param array $data
      */
     public function __construct(array $data)
     {
         $this->ttl = isset($data['ttl']) ? (int) $data['ttl']:0;
+        $this->cacheProvider = isset($data['cache_provider']) ? (string) $data['cache_provider']:null;
     }
 } 

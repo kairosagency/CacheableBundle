@@ -11,15 +11,13 @@
 
 namespace Kairos\CacheBundle;
 
-use Kairos\CacheBundle\DependencyInjection\Compiler\LoggingPass;
-use Kairos\CacheBundle\DependencyInjection\Compiler\MonologPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * SncRedisBundle
  */
-class SncRedisBundle extends Bundle
+class KairosCacheBundle extends Bundle
 {
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
@@ -27,7 +25,5 @@ class SncRedisBundle extends Bundle
     public function build(ContainerBuilder $container)
     {
         parent::build($container);
-        $container->addCompilerPass(new LoggingPass());
-        $container->addCompilerPass(new MonologPass());
     }
 }

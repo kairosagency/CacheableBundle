@@ -17,10 +17,12 @@
         "jms/metadata": "~1.1",
         "symfony/yaml": ">=2.1,<3.0",
         "doctrine/annotations": "1.*",
+        "doctrine/cache": "~1.3",
         "symfony/framework-bundle": "~2.1"
     },
     "require-dev": {
         "predis/predis": "0.8.*",
+        "phpunit/phpunit": "~4.3.0",
         "symfony/console": ">=2.1,<3.0"
     },
     "suggest": {
@@ -29,7 +31,7 @@
         "symfony/console": "If you want to use commands to interact with the redis database"
     },
     "autoload": {
-        "psr-0": { "Snc\\RedisBundle": "" }
+        "psr-0": { "Kairos\\CacheBundle": "" }
     },
     "target-dir": "Snc/RedisBundle",
     "extra": {

@@ -6,12 +6,12 @@
  * Time: 10:58
  */
 
-namespace Kairos\CacheBundle\Tests\Metadata;
+namespace Kairos\CacheBundle\Tests\TestClasses;
 use Kairos\CacheBundle\Annotation\CacheableResult;
 
 
 
-class MetadataTestClass {
+class AnnotationTestClass {
 
     /**
      * @CacheableResult(ttl=1800)
@@ -19,7 +19,7 @@ class MetadataTestClass {
     public $name;
 
     /**
-     * @CacheableResult(ttl=1800, cache_provider=@kairos_cache.default_cache)
+     * @CacheableResult(ttl=1800)
      */
     public function coucou()
     {

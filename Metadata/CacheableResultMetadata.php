@@ -20,4 +20,23 @@ class CacheableResultMetadata extends MethodMetadata
      * @var string $cacheProvider
      */
     public $cacheProvider;
+
+
+    public function serialize()
+    {
+        return serialize(array(
+                $this->class,
+                $this->name,
+                $this->ttl,
+                $this->cacheProvider,
+            ));
+    }
+
+    public function unserialize($str)
+    {
+        list($this->class, $this->name, $this->ttl, $this->cacheProvider) = unserialize($str);
+
+        $this->reflection = new \ReflectionMethod($this->class, $this->name);
+        $this->reflection->setAccessible(true);
+    }
 }

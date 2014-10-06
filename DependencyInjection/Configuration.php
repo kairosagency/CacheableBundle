@@ -19,6 +19,7 @@
 
 namespace Kairos\CacheBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -42,25 +43,32 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->arrayNode('default_cache')
+                ->arrayNode('cacheable_default')
                     ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('cache_provider')->end()
-                        ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/kairos/cache/metadata')->end()
+                        ->integerNode('ttl')->min(0)->end()
+                        ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/kairosCache/method')->end()
                     ->end()
                 ->end()
             ->end()
-
             ->children()
-                ->integerNode('default_ttl')->min(0)->end()
+                ->arrayNode('metadata_default')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->scalarNode('cache_provider')->end()
+                        ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/kairosCache/metadata')->end()
+                    ->end()
+                ->end()
             ->end();
 
 
         $this->addDirectoriesSection($rootNode);
+
         return $treeBuilder;
     }
 
-    private function addDirectoriesSection(NodeBuilder $builder)
+    private function addDirectoriesSection(ArrayNodeDefinition $builder)
     {
         $builder
             ->fixXmlConfig('directory', 'directories')
@@ -75,5 +83,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end()
         ;
+
+        return $builder;
     }
 }

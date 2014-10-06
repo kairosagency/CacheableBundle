@@ -11,6 +11,7 @@ namespace Kairos\CacheBundle\Metadata\Driver;
 use Metadata\Driver\AbstractFileDriver;
 use Metadata\MergeableClassMetadata;
 use Kairos\CacheBundle\Metadata\CacheableResultMetadata;
+use Symfony\Component\Yaml\Yaml;
 
 class CacheableResultYamlDriver extends AbstractFileDriver {
 
@@ -18,6 +19,7 @@ class CacheableResultYamlDriver extends AbstractFileDriver {
     {
         $classMetadata = new MergeableClassMetadata($class->getName());
         $data = Yaml::parse($file);
+
         foreach ($data as $methodName => $value) {
             $methodMetadata = new CacheableResultMetadata($class->getName(), $methodName);
             $methodMetadata->defaultValue = $value;

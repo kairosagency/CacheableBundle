@@ -31,12 +31,13 @@ class CacheableResultAnnotationDriver implements DriverInterface {
 
             $annotation = $this->reader->getMethodAnnotation(
                 $method,
-                'Snc\\RedisBundle\\Annotation\\CacheableResult'
+                'Kairos\\CacheBundle\\Annotation\\CacheableResult'
             );
 
             if (null !== $annotation) {
                 // a "@DefaultValue" annotation was found
                 $metadata->ttl = $annotation->ttl;
+                $metadata->cacheProvider = $annotation->cacheProvider;
             }
 
             $classMetadata->addMethodMetadata($metadata);

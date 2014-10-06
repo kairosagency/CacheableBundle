@@ -6,6 +6,7 @@
         <parameter key="kairos_cache.metadata_factory.class">Metadata\MetadataFactory</parameter>
         <parameter key="kairos_cache.metadata.file_locator_class">Metadata\Driver\FileLocator</parameter>
         <parameter key="kairos_cache.metadata.driver_chain.class">Metadata\Driver\DriverChain</parameter>
+        <parameter key="kairos_cache.filesystem.class">Doctrine\Common\Cache\FilesystemCache</parameter>
 
         <parameter key="kairos_cache.metadata.annotation_driver.class">Kairos\CacheBundle\Metadata\Driver\CacheableResultAnnotationDriver</parameter>
         <parameter key="kairos_cache.metadata.yaml_driver.class">Kairos\CacheBundle\Metadata\Driver\CacheableResultYamlDriver</parameter>
@@ -37,10 +38,10 @@
         </service>
 
 
-        <service id="kairos_cache.metadata_factory" class="%kairos_cache.metadata_factory.class%" public="false">
+        <service id="kairos_cache.metadata_factory" class="%kairos_cache.metadata_factory.class%">
             <argument type="service" id="kairos_cache.driver_chain" />
             <call method="setCache">
-                <argument type="service" id="kairos_cache.default_cache" />
+                <argument type="service" id="kairos_cache.default_metadata_cache" />
             </call>
         </service>
     </services>
