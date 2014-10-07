@@ -224,7 +224,9 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
 
         $container->compile();
 
-        var_dump($container->get('kairos_cache.test_cacheable.cacheable'));
+        $cacheable = $container->get('kairos_cache.test_cacheable.cacheable');
+        var_dump($cacheable->coucou());
+        var_dump($cacheable->coucou2());
     }
 
     private function parseYaml($yaml)
