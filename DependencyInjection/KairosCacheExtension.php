@@ -69,39 +69,6 @@ class KairosCacheExtension extends Extension
         );
         $loader->load('metadataFactory.xml');
         $this->getYamlDirectories($rootConfig, $container);
-        $this->loadMetadataCacheProvider($rootConfig, $container);
-        $this->loadCacheableCacheProvider($rootConfig, $container);
-    }
-
-    /**
-     * @param array $config
-     */
-    protected function loadMetadataCacheProvider(array $config)
-    {
-        if($this->container->hasParameter('kairos_cache.metadata_default.cache_provider')) {
-            $this->container->setAlias('kairos_cache.default_metadata_cache', $this->container->getParameter('kairos_cache.metadata_default.cache_provider'));
-        }
-        else {
-            $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array($this->container->getParameter('kairos_cache.metadata_default.cache_dir')));
-            $doctrineCacheDapater = new Definition('Metadata\\Cache\\DoctrineCacheAdapter',  array('metadata', $defaultCacheDefinition));
-            $this->container->setDefinition('kairos_cache.default_metadata_cache', $doctrineCacheDapater);
-        }
-    }
-
-    /**
-     * @param array $config
-     */
-    protected function loadCacheableCacheProvider(array $config)
-    {
-
-        if($this->container->hasParameter('kairos_cache.cacheable_default.cache_provider')) {
-            $this->container->setAlias('kairos_cache.default_cache', $this->container->getParameter('kairos_cache.cacheable_default.cache_provider'));
-        }
-        else {
-            $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array($this->container->getParameter('kairos_cache.cacheable_default.cache_dir')));
-            $doctrineCacheDapater = new Definition('Metadata\\Cache\\DoctrineCacheAdapter',  array('cacheable', $defaultCacheDefinition));
-            $this->container->setDefinition('kairos_cache.default_cache', $doctrineCacheDapater);
-        }
     }
 
     protected function getYamlDirectories(array $rootConfig)
@@ -135,7 +102,6 @@ class KairosCacheExtension extends Extension
             $directories[rtrim($directory['namespace_prefix'], '\\')] = rtrim($directory['path'], '\\/');
         }
 
-
         $this->container
             ->getDefinition('kairos_cache.metadata.file_locator')
             ->replaceArgument(0, $directories);
@@ -144,6 +110,10 @@ class KairosCacheExtension extends Extension
 
     /******** util functions ********/
 
+    /**
+     * @param array $config
+     * @param array $map
+     */
     protected function remapParameters(array $config, array $map)
     {
         foreach ($map as $name => $paramName) {
@@ -153,6 +123,10 @@ class KairosCacheExtension extends Extension
         }
     }
 
+    /**
+     * @param array $config
+     * @param array $namespaces
+     */
     protected function remapParametersNamespaces(array $config, array $namespaces)
     {
         foreach ($namespaces as $ns => $map) {

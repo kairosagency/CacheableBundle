@@ -24,10 +24,10 @@
         <service id="kairos_cache.metadata.file_locator" class="%kairos_cache.metadata.file_locator_class%">
             <argument />
         </service>
+
         <service id="kairos_cache.metadata.yaml_driver" class="%kairos_cache.metadata.yaml_driver.class%" public="false">
             <argument type="service" id="kairos_cache.metadata.file_locator" />
         </service>
-
 
         <!-- Merge annotations and yaml results -->
         <service id="kairos_cache.driver_chain" class="%kairos_cache.metadata.driver_chain.class%">

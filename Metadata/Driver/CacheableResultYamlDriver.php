@@ -20,11 +20,15 @@ class CacheableResultYamlDriver extends AbstractFileDriver {
         $classMetadata = new MergeableClassMetadata($class->getName());
         $data = Yaml::parse($file);
 
-        foreach ($data as $methodName => $value) {
-            $methodMetadata = new CacheableResultMetadata($class->getName(), $methodName);
-            $methodMetadata->defaultValue = $value;
+        if(isset($data[$class->getName()]) && isset($data[$class->getName()]['methods']) && $methods = $data[$class->getName()]['methods'])
+        {
+            foreach ($methods as $methodName => $value) {
+                $methodMetadata = new CacheableResultMetadata($class->getName(), $methodName);
+                $methodMetadata->ttl = isset($value['ttl'])?  $value['ttl'] : null;
+                $methodMetadata->cacheProvider = isset($value['cache_provider'])?  $value['cache_provider'] : null;
 
-            $classMetadata->addMethodMetadata($methodMetadata);
+                $classMetadata->addMethodMetadata($methodMetadata);
+            }
         }
 
         return $classMetadata;

@@ -13,9 +13,6 @@ use Kairos\CacheBundle\Annotation\CacheableResult;
 
 class AnnotationTestClass {
 
-    /**
-     * @CacheableResult(ttl=1800)
-     */
     public $name;
 
     /**
@@ -23,6 +20,14 @@ class AnnotationTestClass {
      */
     public function coucou()
     {
+        return "coucou";
+    }
 
+    /**
+     * @CacheableResult(ttl=1801, cache_provider="@kairos_cache.test_cache")
+     */
+    public function coucou2()
+    {
+        return "coucou2";
     }
 }

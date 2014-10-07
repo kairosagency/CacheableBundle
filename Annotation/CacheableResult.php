@@ -10,7 +10,7 @@ namespace Kairos\CacheBundle\Annotation;
 
 /**
  * @Annotation
- * @Target({"METHOD","PROPERTY"})
+ * @Target({"METHOD"})
  */
 class CacheableResult {
 

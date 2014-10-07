@@ -8,61 +8,85 @@
 
 namespace Kairos\CacheBundle\Service;
 
+use Doctrine\Common\Cache\Cache;
+use Metadata\ClassMetadata;
 use Metadata\MergeableClassMetadata;
+use Metadata\MetadataFactory;
+use Symfony\Component\DependencyInjection\Definition;
 
 class CacheableProxyService {
 
-    protected $objectToCache;
-    protected $cacheProvider;
-    protected $metadataParser;
+    /**
+     * @var Object
+     */
+    protected $service;
+
+    /**
+     * @var \Doctrine\Common\Cache\Cache
+     */
+    protected $defaultCacheProvider;
+
     /**
      * @var MergeableClassMetadata
      */
     protected $classMetadata;
 
     /**
-     * @param array $data
+     * @var int
      */
-    public function __construct($metadataParser, $cacheProvider)
+    protected $defaultTTl;
+
+    /**
+     * @param MetadataFactory $metadataFactory
+     * @param Cache $cacheProvider
+     */
+    public function __construct(ClassMetadata $classMetadata, Cache $defaultCacheProvider, $service, $defaultTTl)
     {
-        $this->metadataParser = $metadataParser;
-        $this->cacheProvider = $cacheProvider;
-    }
-
-    public function setObjectToCache ($objectToCache) {
-        if(!is_object($objectToCache))
-            throw new \Exception("Object to cache is not an Object");
-
-        if(is_null($this->objectToCache)) {
-            $this->objectToCache = $objectToCache;
-            $this->classMetadata = $this->metadataParser->loadMetadataForClass(get_class($objectToCache));
-        } else {
-            throw new \Exception("Object has already been set");
-        }
+        $this->classMetadata = $classMetadata;
+        $this->defaultCacheProvider = $defaultCacheProvider;
+        $this->defaultTTl = $defaultTTl;
+        $this->service = $service;
     }
 
 
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
     public function __call($name, $arguments)
     {
-        $callable = array($this->objectToCache, $name);
+        $callable = array($this->service, $name);
 
         if(isset($this->classMetadata->methodMetadata[$name]) && $methodMetadata = $this->classMetadata->methodMetadata[$name]) {
-            $key = md5($name.serialize($arguments));
-            if($res = $this->cacheProvider->get($key)) {
+
+
+            $key = $name.md5($name.serialize($arguments));
+            if($this->defaultCacheProvider->contains($key) && $res = $this->defaultCacheProvider->fetch($key)) {
                 return $res;
             }
             else {
-                $res = call_user_func(array($this->objectToCache, $name), $arguments);
-                $this->cacheProvider->set($key, $res, $methodMetadata->ttl);
+                $res = call_user_func(array($this->service, $name), $arguments);
+
+                $ttl = null;
+                if(!is_null($methodMetadata->ttl))
+                    $ttl = $methodMetadata->ttl;
+                else if(!is_null($this->defaultTTl))
+                    $ttl = $this->defaultTTl;
+                else
+                    throw new \Exception("At least one tll (default ttl or method ttl) should be set");
+
+                $this->defaultCacheProvider->save($key, $res, $ttl);
                 return $res;
             }
         }
         // use methode exists since it does not care about __call() unlike is_callable
         // see : http://fr2.php.net/manual/fr/function.method-exists.php#101507
-        else if(method_exists($this->objectToCache, $name)) {
+        else if(method_exists($this->service, $name)) {
             return call_user_func($callable, $arguments);
         }
 
         trigger_error('Call to undefined method '.$this->classMetadata->name.'::'.$name.'()', E_USER_ERROR);
     }
+
 } 

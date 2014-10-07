@@ -13,8 +13,10 @@ namespace Kairos\CacheBundle\Tests\DependencyInjection;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\PhpFileCache;
 
+use Kairos\CacheBundle\DependencyInjection\Compiler\DefaultCacheCompilerPass;
 use Kairos\CacheBundle\DependencyInjection\KairosCacheExtension;
 use Kairos\CacheBundle\KairosCacheBundle;
 use Kairos\CacheBundle\Metadata\CacheableResultMetadata;
@@ -38,20 +40,18 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
      *
      * @return array
      */
-    public static function parameterValues()
+    public static function defaultParameterValues()
     {
-        /*return array(
-            array('kairos_cache.php_file.class', 'Doctrine\Common\Cache\PhpFileCache'),
-            array('snc_redis.client_options.class', 'Predis\Option\ClientOptions'),
-            array('snc_redis.connection_parameters.class', 'Predis\Connection\ConnectionParameters'),
-            array('snc_redis.connection_factory.class', 'Kairos\CacheBundle\Client\Predis\Connection\ConnectionFactory'),
-            array('snc_redis.connection_wrapper.class', 'Kairos\CacheBundle\Client\Predis\Connection\ConnectionWrapper'),
-            array('snc_redis.logger.class', 'Kairos\CacheBundle\Logger\RedisLogger'),
-            array('snc_redis.data_collector.class', 'Kairos\CacheBundle\DataCollector\RedisDataCollector'),
-            array('snc_redis.doctrine_cache.class', 'Kairos\CacheBundle\Doctrine\Cache\RedisCache'),
-            array('snc_redis.monolog_handler.class', 'Monolog\Handler\RedisHandler'),
-            array('snc_redis.swiftmailer_spool.class', 'Kairos\CacheBundle\SwiftMailer\RedisSpool'),
-        );*/
+        return array(
+            array('kairos_cache.filesystem.class', 'Doctrine\Common\Cache\FilesystemCache'),
+            array('kairos_cache.metadata_factory.class', 'Metadata\MetadataFactory'),
+            array('kairos_cache.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
+            array('kairos_cache.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
+            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
+            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultYamlDriver'),
+            array('kairos_cache.metadata_default.cache_dir', __DIR__.'/../cache//kairosCache/metadata'),
+            array('kairos_cache.cacheable_default.cache_dir', __DIR__.'/../cache//kairosCache/resultCache'),
+        );
     }
 
 
@@ -59,42 +59,172 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
      * @param string $name     Name
      * @param string $expected Expected value
      *
+     * @dataProvider defaultParameterValues
      */
-    /*public function testDefaultParameterConfigLoad()
+    public function testDefaultParameterConfigLoad($name, $expected)
     {
-        $extension = new KairosCacheExtension();
-        $config = $this->parseYaml($this->getMinimalYamlConfig());
-        $extension->load(array($config), $container = $this->getContainer());
-        //var_dump($container);
-        //$this->assertEquals($expected, $container->getParameter($name));
-    }*/
+        $container = $this->getContainer($this->parseYaml($this->getMinimalYamlConfig()));
+        $this->assertEquals($expected, $container->getParameter($name));
+    }
+
+    /**
+     *
+     */
+    public function testDefaultMetadataCache()
+    {
+        $container = $this->getContainer($this->parseYaml($this->getMinimalYamlConfig()));
+
+        $defaultMetadataCache = $container->get('kairos_cache.default_metadata_cache');
+        $this->assertInstanceOf('Metadata\Cache\DoctrineCacheAdapter', $defaultMetadataCache);
+    }
+
+    /**
+     *
+     */
+    public function testDefaultCacheableCache()
+    {
+        $container = $this->getContainer($this->parseYaml($this->getMinimalYamlConfig()));
+
+        $defaultMetadataCache = $container->get('kairos_cache.default_cache');
+        $this->assertInstanceOf('Doctrine\Common\Cache\Cache', $defaultMetadataCache);
+    }
+
+
+    /**
+     * @static
+     *
+     * @return array
+     */
+    public static function ClassicParameterValues()
+    {
+        return array(
+            array('kairos_cache.filesystem.class', 'Doctrine\Common\Cache\FilesystemCache'),
+            array('kairos_cache.metadata_factory.class', 'Metadata\MetadataFactory'),
+            array('kairos_cache.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
+            array('kairos_cache.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
+            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
+            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultYamlDriver'),
+            array('kairos_cache.metadata_default.cache_dir', __DIR__.'/../cache//kairos2'),
+            array('kairos_cache.cacheable_default.cache_dir', __DIR__.'/../cache//kairos1'),
+        );
+    }
+
 
     /**
      * @param string $name     Name
      * @param string $expected Expected value
      *
+     * @dataProvider ClassicParameterValues
      */
-    public function testFullParameterConfigLoad()
+    public function testClassicParameterConfigLoad($name, $expected)
     {
+        $container = $this->getContainer($this->parseYaml($this->getClassicYamlConfig()));
+        $this->assertEquals($expected, $container->getParameter($name));
+    }
 
 
+    /**
+     * @static
+     *
+     * @return array
+     */
+    public static function testClassicClasses()
+    {
+        return array(
+            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClass',
+                array(
+                    "coucou2" => array("ttl" => 1801, "cacheProvider" => "@kairos_cache.test_cache"),
+                    "coucou" => array("ttl" => 1800, "cacheProvider" => null)
+                )
+            ),
+            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClass',
+                array(
+                    "coucou" => array("ttl" => 3600, "cacheProvider" => "@kairos_cache.test_cache"),
+                    "coucou2" => array("ttl" => 3601, "cacheProvider" => null)
+                )
+            ),
+        );
+    }
+
+    /**
+     * @param string $name     Name
+     * @param array $expected Expected value
+     *
+     * @dataProvider testClassicClasses
+     */
+    public function testMetadataLoad($class, $expected)
+    {
+        $container = $this->getContainer($this->parseYaml($this->getClassicYamlConfig()));
+        $metadataFactory = $container->get('kairos_cache.metadata_factory');
+        $metadata = $metadataFactory->getMetadataForClass($class);
+
+        foreach($expected AS $key => $result) {
+            if(isset($metadata->methodMetadata[$key])) {
+                $methodMetadata = $metadata->methodMetadata[$key];
+                $this->assertEquals($result["ttl"], $methodMetadata->ttl);
+                $this->assertEquals($result["cacheProvider"], $methodMetadata->cacheProvider);
+            }
+        }
+    }
 
 
-        $container = $this->getContainer();
+    /**
+     * @static
+     *
+     * @return array
+     */
+    public static function testFullParameterClasses()
+    {
+        return array(
+            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClass',
+                array(
+                    "coucou2" => array("ttl" => 1801, "cacheProvider" => "@kairos_cache.test_cache"),
+                    "coucou" => array("ttl" => 1800, "cacheProvider" => null)
+                )
+            ),
+            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClass',
+                array(
+                    "coucou" => array("ttl" => 3600, "cacheProvider" => "@kairos_cache.test_cache"),
+                    "coucou2" => array("ttl" => 3601, "cacheProvider" => null)
+                )
+            ),
+        );
+    }
 
-        $container
-            ->getDefinition('kairos_cache.metadata.file_locator')
-            ->replaceArgument(0, array('Kairos/CacheBundle/Tests/TestClasses/YamlTestClass' => __DIR__.'/../Ressources/config/cache'));
+    /**
+     * @param string $name     Name
+     * @param array $expected Expected value
+     *
+     * @dataProvider testFullParameterClasses
+     */
+    public function testFullParameterMetadataLoad($class, $expected)
+    {
+        $container = $this->getContainer($this->parseYaml($this->getFullYamlConfig()));
 
         $metadataFactory = $container->get('kairos_cache.metadata_factory');
+        $metadata = $metadataFactory->getMetadataForClass($class);
+
+        foreach($expected AS $key => $result) {
+            if(isset($metadata->methodMetadata[$key])) {
+                $methodMetadata = $metadata->methodMetadata[$key];
+                $this->assertEquals($result["ttl"], $methodMetadata->ttl);
+                $this->assertEquals($result["cacheProvider"], $methodMetadata->cacheProvider);
+            }
+        }
+    }
 
 
-        //var_dump($container);
-        var_dump($metadataFactory->getMetadataForClass('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClass'));
-        var_dump($metadataFactory->getMetadataForClass('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClass'));
+    public function testServiceBuilderLoad()
+    {
+        $container = $this->getUnbuiltContainer($this->parseYaml($this->getFullYamlConfig()));
 
+        $cacheableService = new Definition("Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClass");
+        $cacheableService->addTag('kairos_cache.cacheable');
+        $container->setDefinition('kairos_cache.test_cacheable', $cacheableService);
 
-        //$this->assertEquals($expected, $container->getParameter($name));
+        $container->compile();
+
+        var_dump($container->get('kairos_cache.test_cacheable.cacheable'));
     }
 
     private function parseYaml($yaml)
@@ -107,24 +237,20 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
     private function getMinimalYamlConfig()
     {
         return <<<'EOF'
-kairos_cache:
-    cacheable_default:
-        cache_dir: %kernel.cache_dir%/kairos
-    metadata_default:
-        cache_dir: %kernel.cache_dir%/kairos
+kairos_cache: ~
 EOF;
     }
 
-    private function getYamlConfig()
+    private function getClassicYamlConfig()
     {
         return <<<'EOF'
 kairos_cache:
     cacheable_default:
         ttl: 1800
-        cache_dir: %kernel.cache_dir%/kairos
+        cache_dir: %kernel.cache_dir%/kairos1
 
     metadata_default:
-        cache_dir: %kernel.cache_dir%/kairos
+        cache_dir: %kernel.cache_dir%/kairos2
 
     directories:
         KairosCacheBundle:
@@ -139,12 +265,12 @@ EOF;
 kairos_cache:
     cacheable_default:
         ttl: 1800
-        cache_dir: %kernel.cache_dir%/kairos
+        cache_dir: %kernel.cache_dir%/kairos11
         cache_provider: @test_cache_provider
 
     metadata_default:
         cache_provider: @test_cache_provider
-        cache_dir: %kernel.cache_dir%/kairos
+        cache_dir: %kernel.cache_dir%/kairos22
 
     directories:
         KairosCacheBundle:
@@ -166,16 +292,50 @@ EOF;
         )));
 
         $container->set('annotation_reader', new AnnotationReader());
-        $container->set('@test_cache_provider', new PhpFileCache(__DIR__.'/../cache'));
+        $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array(__DIR__.'/../cache/test_cache_provider'));
+        $container->setDefinition('test_cache_provider', $defaultCacheDefinition);
 
         $extension = new KairosCacheExtension();
         $container->registerExtension($extension);
+
 
         if(is_null($config))
             $config = $this->parseYaml($this->getMinimalYamlConfig());
 
         $extension->load($config, $container);
+
+        $container->addCompilerPass(new DefaultCacheCompilerPass());
         $container->compile();
+
+        return $container;
+    }
+
+
+    private function getUnbuiltContainer(array $config = null)
+    {
+        AnnotationRegistry::registerFile(__DIR__.'/../../Annotation/CacheableResult.php');
+        $container = new ContainerBuilder(new ParameterBag(array(
+            'kernel.debug'       => false,
+            'kernel.bundles'     => array('KairosCacheBundle' => 'Kairos\CacheBundle\KairosCacheBundle'),
+            'kernel.cache_dir'   => __DIR__.'/../cache/',
+            'kernel.environment' => 'test',
+            'kernel.root_dir'    => __DIR__.'/../../' // src dir
+        )));
+
+        $container->set('annotation_reader', new AnnotationReader());
+        $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array(__DIR__.'/../cache/test_cache_provider'));
+        $container->setDefinition('test_cache_provider', $defaultCacheDefinition);
+
+        $extension = new KairosCacheExtension();
+        $container->registerExtension($extension);
+
+
+        if(is_null($config))
+            $config = $this->parseYaml($this->getMinimalYamlConfig());
+
+        $extension->load($config, $container);
+        $container->addCompilerPass(new DefaultCacheCompilerPass());
+
         return $container;
     }
 }

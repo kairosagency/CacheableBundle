@@ -17,6 +17,11 @@ class YamlTestClass {
 
     public function coucou()
     {
+        return "coucou";
+    }
 
+    public function coucou2()
+    {
+        return "coucou2";
     }
 }

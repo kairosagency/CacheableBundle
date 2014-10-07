@@ -1,0 +1,8 @@
+Kairos\CacheBundle\Tests\TestClasses\YamlTestClass:
+    methods:
+        coucou:
+            ttl: 3600
+            cache_provider: @kairos_cache.test_cache
+
+        coucou2:
+            ttl: 3601

@@ -48,7 +48,7 @@ class Configuration implements ConfigurationInterface
                     ->children()
                         ->scalarNode('cache_provider')->end()
                         ->integerNode('ttl')->min(0)->end()
-                        ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/kairosCache/method')->end()
+                        ->scalarNode('cache_dir')->defaultValue('%kernel.cache_dir%/kairosCache/resultCache')->end()
                     ->end()
                 ->end()
             ->end()
