@@ -117,13 +117,12 @@ class KairosCacheExtension extends Extension
 
         // directories
         $directories = array();
-        /*if ($rootConfig['auto_detection']) {
+        if ($rootConfig['auto_detection']) {
             foreach ($bundles as $name => $class) {
                 $ref = new \ReflectionClass($class);
-
-                $directories[$ref->getNamespaceName()] = dirname($ref->getFileName()).'/Resources/config/cacheable';
+                $directories[$ref->getNamespaceName()] = dirname($ref->getFileName()).'/Resources/config/cachebundle';
             }
-        }*/
+        }
 
         foreach ($rootConfig['directories'] as $directory) {
             $directory['path'] = rtrim(str_replace('\\', '/', $directory['path']), '/');

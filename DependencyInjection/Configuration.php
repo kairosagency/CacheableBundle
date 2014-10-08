@@ -42,6 +42,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('debug')->defaultFalse()->end()
+                ->scalarNode('auto_detection')->defaultFalse()->end()
             ->end()
         ;
 
