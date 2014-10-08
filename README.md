@@ -122,9 +122,9 @@ kairos_cache:
 No step three
 
 
-## Todo ##
+## More dicumentation ##
 
-Add more documentation
+[More](./blob/master/Docs/FULLCONFIG.md)
 
 ## License ##
 
