@@ -8,25 +8,28 @@
 
 namespace Kairos\CacheBundle\Metadata\Driver;
 
+use Kairos\CacheBundle\Metadata\CacheProviderMetadata;
+use Kairos\CacheBundle\Metadata\TTLMetadata;
 use Metadata\Driver\AbstractFileDriver;
-use Metadata\MergeableClassMetadata;
-use Kairos\CacheBundle\Metadata\CacheableResultMetadata;
 use Symfony\Component\Yaml\Yaml;
+use Kairos\CacheBundle\Lib\Utils;
+
 
 class CacheableResultYamlDriver extends AbstractFileDriver {
 
     protected function loadMetadataFromFile(\ReflectionClass $class, $file)
     {
-        $classMetadata = new MergeableClassMetadata($class->getName());
+
+        $classMetadata = new CacheProviderMetadata($class->getName());
         $data = Yaml::parse($file);
 
         if(isset($data[$class->getName()]) && isset($data[$class->getName()]['methods']) && $methods = $data[$class->getName()]['methods'])
         {
-            foreach ($methods as $methodName => $value) {
-                $methodMetadata = new CacheableResultMetadata($class->getName(), $methodName);
-                $methodMetadata->ttl = isset($value['ttl'])?  $value['ttl'] : null;
-                $methodMetadata->cacheProvider = isset($value['cache_provider'])?  $value['cache_provider'] : null;
+            $classMetadata->cacheProvider = isset($data[$class->getName()]['cache_provider'])?  Utils::normalizeServiceId($data[$class->getName()]['cache_provider']) : null;
 
+            foreach ($methods as $methodName => $value) {
+                $methodMetadata = new TTLMetadata($class->getName(), $methodName);
+                $methodMetadata->ttl = isset($value['ttl'])?  $value['ttl'] : null;
                 $classMetadata->addMethodMetadata($methodMetadata);
             }
         }
@@ -38,5 +41,4 @@ class CacheableResultYamlDriver extends AbstractFileDriver {
     {
         return 'yml';
     }
-
 } 

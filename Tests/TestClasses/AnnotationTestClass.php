@@ -7,16 +7,18 @@
  */
 
 namespace Kairos\CacheBundle\Tests\TestClasses;
-use Kairos\CacheBundle\Annotation\CacheableResult;
+use Kairos\CacheBundle\Annotation as KairosCache;
 
 
-
+/**
+ * @KairosCache\CacheProvider("@doctrine.test_cache")
+ */
 class AnnotationTestClass {
 
     public $name;
 
     /**
-     * @CacheableResult(ttl=1800)
+     * @KairosCache\TTL(1800)
      */
     public function coucou()
     {
@@ -24,7 +26,7 @@ class AnnotationTestClass {
     }
 
     /**
-     * @CacheableResult(ttl=1801, cache_provider="@kairos_cache.test_cache")
+     * @KairosCache\TTL(1801)
      */
     public function coucou2()
     {

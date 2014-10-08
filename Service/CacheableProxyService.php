@@ -48,6 +48,13 @@ class CacheableProxyService {
         $this->service = $service;
     }
 
+    /**
+     * @return Cache
+     */
+    public function getCache() {
+        return $this->defaultCacheProvider;
+    }
+
 
     /**
      * @param $name

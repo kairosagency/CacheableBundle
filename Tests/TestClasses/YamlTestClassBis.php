@@ -10,7 +10,7 @@ namespace Kairos\CacheBundle\Tests\TestClasses;
 
 
 
-class YamlTestClass {
+class YamlTestClassBis {
 
     public $name;
 

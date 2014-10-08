@@ -10,14 +10,9 @@ namespace Kairos\CacheBundle\Annotation;
 
 /**
  * @Annotation
- * @Target({"METHOD"})
+ * @Target({"CLASS"})
  */
-class CacheableResult {
-
-    /**
-     * @var int
-     */
-    public $ttl;
+class CacheProvider {
 
     /**
      * @var null|string
@@ -29,7 +24,6 @@ class CacheableResult {
      */
     public function __construct(array $data)
     {
-        $this->ttl = isset($data['ttl']) ? (int) $data['ttl']:0;
-        $this->cacheProvider = isset($data['cache_provider']) ? (string) $data['cache_provider']:null;
+        $this->cacheProvider = isset($data['value']) ? (string) $data['value']:null;
     }
 } 

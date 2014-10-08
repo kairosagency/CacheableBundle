@@ -1,8 +1,8 @@
 Kairos\CacheBundle\Tests\TestClasses\YamlTestClass:
+    cache_provider: @doctrine.test_cache
     methods:
         coucou:
             ttl: 3600
-            cache_provider: @kairos_cache.test_cache
 
         coucou2:
             ttl: 3601

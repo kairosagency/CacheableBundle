@@ -7,7 +7,7 @@
  */
 
 namespace Kairos\CacheBundle\Tests\Metadata;
-use Kairos\CacheBundle\Annotation\CacheableResult;
+use Kairos\CacheBundle\Annotation\CacheProviderAnnotation;
 
 
 

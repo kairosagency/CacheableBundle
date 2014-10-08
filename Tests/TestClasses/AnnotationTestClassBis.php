@@ -7,18 +7,24 @@
  */
 
 namespace Kairos\CacheBundle\Tests\TestClasses;
+use Kairos\CacheBundle\Annotation as KairosCache;
 
 
-
-class YamlTestClass {
+class AnnotationTestClassBis {
 
     public $name;
 
+    /**
+     * @KairosCache\TTL(1800)
+     */
     public function coucou()
     {
         return "coucou";
     }
 
+    /**
+     * @KairosCache\TTL(1801)
+     */
     public function coucou2()
     {
         return "coucou2";

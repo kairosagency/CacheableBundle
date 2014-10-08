@@ -43,6 +43,25 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('debug')->defaultFalse()->end()
+            ->end()
+        ;
+
+        $this->addMetadataSection($rootNode);
+        $this->addCacheSection($rootNode);
+        $this->addDirectoriesSection($rootNode);
+
+        return $treeBuilder;
+    }
+
+    /**
+     * @param ArrayNodeDefinition $builder
+     * @return ArrayNodeDefinition
+     */
+    private function addMetadataSection(ArrayNodeDefinition $builder)
+    {
+        $builder
+            ->children()
                 ->arrayNode('cacheable_default')
                     ->addDefaultsIfNotSet()
                     ->children()
@@ -52,6 +71,18 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
+        ;
+
+        return $builder;
+    }
+
+    /**
+     * @param ArrayNodeDefinition $builder
+     * @return ArrayNodeDefinition
+     */
+    private function addCacheSection(ArrayNodeDefinition $builder)
+    {
+        $builder
             ->children()
                 ->arrayNode('metadata_default')
                     ->addDefaultsIfNotSet()
@@ -62,12 +93,14 @@ class Configuration implements ConfigurationInterface
                 ->end()
             ->end();
 
-
-        $this->addDirectoriesSection($rootNode);
-
-        return $treeBuilder;
+        return $builder;
     }
 
+
+    /**
+     * @param ArrayNodeDefinition $builder
+     * @return ArrayNodeDefinition
+     */
     private function addDirectoriesSection(ArrayNodeDefinition $builder)
     {
         $builder

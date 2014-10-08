@@ -25,6 +25,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Kairos\CacheBundle\Lib\Utils;
 
 /**
  * Cache Bundle Extension
@@ -58,18 +59,57 @@ class KairosCacheExtension extends Extension
         $this->remapParametersNamespaces($rootConfig, array(
                 'cacheable_default'          => array(
                     'ttl' => 'kairos_cache.cacheable_default.default_ttl',
-                    'cache_provider' => 'kairos_cache.cacheable_default.cache_provider',
                     'cache_dir'         =>  'kairos_cache.cacheable_default.cache_dir',
                 ),
                 'metadata_default'   => array(
-                    'cache_provider'    =>  'kairos_cache.metadata_default.cache_provider',
                     'cache_dir'         =>  'kairos_cache.metadata_default.cache_dir',
                 )
             )
         );
+
         $loader->load('metadataFactory.xml');
+        $this->loadMetadataCacheService($rootConfig, $container);
+        $this->loadResultCacheService($rootConfig, $container);
         $this->getYamlDirectories($rootConfig, $container);
+        if($rootConfig['debug']) {
+            $container->getDefinition('kairos_cache.metadata_factory')->removeMethodCall('setCache');
+        }
     }
+
+
+    protected function loadMetadataCacheService(array $rootConfig, ContainerBuilder $container)
+    {
+        if(isset($rootConfig['metadata_default']['cache_provider']) && $serviceId = Utils::normalizeServiceId($rootConfig['metadata_default']['cache_provider'])) {
+
+            $doctrineCacheAdpater = new Definition('Metadata\\Cache\\DoctrineCacheAdapter',
+                array(
+                    'metadata',
+                    new Reference($serviceId)
+                )
+            );
+            $container->setDefinition('kairos_cache.default_metadata_cache', $doctrineCacheAdpater);
+        }
+        else {
+            $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array($container->getParameter('kairos_cache.metadata_default.cache_dir')));
+            $doctrineCacheAdpater = new Definition('Metadata\\Cache\\DoctrineCacheAdapter',  array('metadata', $defaultCacheDefinition));
+            $container->setDefinition('kairos_cache.default_metadata_cache', $doctrineCacheAdpater);
+        }
+
+    }
+
+    protected function loadResultCacheService(array $rootConfig, ContainerBuilder $container)
+    {
+        if(isset($rootConfig['metadata_default']['cache_provider']) && $serviceId = Utils::normalizeServiceId($rootConfig['metadata_default']['cache_provider'])) {
+            $container->setAlias('kairos_cache.default_cache', $serviceId);
+        }
+        else {
+            $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array($container->getParameter('kairos_cache.cacheable_default.cache_dir')));
+            $container->setDefinition('kairos_cache.default_cache', $defaultCacheDefinition);
+        }
+    }
+
+
+
 
     protected function getYamlDirectories(array $rootConfig)
     {
@@ -147,5 +187,4 @@ class KairosCacheExtension extends Extension
             }
         }
     }
-
 }

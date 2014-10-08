@@ -8,10 +8,11 @@
 
 namespace Kairos\CacheBundle\Metadata\Driver;
 
+use Kairos\CacheBundle\Metadata\CacheProviderMetadata;
+use Kairos\CacheBundle\Metadata\TTLMetadata;
 use Metadata\Driver\DriverInterface;
-use Metadata\MergeableClassMetadata;
 use Doctrine\Common\Annotations\Reader;
-use Kairos\CacheBundle\Metadata\CacheableResultMetadata;
+use Kairos\CacheBundle\Lib\Utils;
 
 class CacheableResultAnnotationDriver implements DriverInterface {
     private $reader;
@@ -23,21 +24,29 @@ class CacheableResultAnnotationDriver implements DriverInterface {
 
     public function loadMetadataForClass(\ReflectionClass $class)
     {
-        $classMetadata = new MergeableClassMetadata($class->getName());
+        $classMetadata = new CacheProviderMetadata($class->getName());
 
+        $classAnnotation = $this->reader->getClassAnnotation(
+            $class,
+            'Kairos\\CacheBundle\\Annotation\\CacheProvider'
+        );
+
+        if (null !== $classAnnotation) {
+            // a "@DefaultValue" annotation was found
+            $classMetadata->cacheProvider = Utils::normalizeServiceId($classAnnotation->cacheProvider);
+        }
 
         foreach ($class->getMethods() as $method) {
-            $metadata = new CacheableResultMetadata($class->getName(), $method->getName());
+            $metadata = new TTLMetadata($class->getName(), $method->getName());
 
             $annotation = $this->reader->getMethodAnnotation(
                 $method,
-                'Kairos\\CacheBundle\\Annotation\\CacheableResult'
+                'Kairos\\CacheBundle\\Annotation\\TTL'
             );
 
             if (null !== $annotation) {
                 // a "@DefaultValue" annotation was found
                 $metadata->ttl = $annotation->ttl;
-                $metadata->cacheProvider = $annotation->cacheProvider;
             }
 
             $classMetadata->addMethodMetadata($metadata);

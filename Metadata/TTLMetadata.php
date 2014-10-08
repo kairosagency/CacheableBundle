@@ -9,17 +9,12 @@ namespace Kairos\CacheBundle\Metadata;
 
 use Metadata\MethodMetadata;
 
-class CacheableResultMetadata extends MethodMetadata
+class TTLMetadata extends MethodMetadata
 {
     /**
      * @var int $ttl
      */
     public $ttl;
-
-    /**
-     * @var string $cacheProvider
-     */
-    public $cacheProvider;
 
 
     public function serialize()
@@ -28,13 +23,12 @@ class CacheableResultMetadata extends MethodMetadata
                 $this->class,
                 $this->name,
                 $this->ttl,
-                $this->cacheProvider,
             ));
     }
 
     public function unserialize($str)
     {
-        list($this->class, $this->name, $this->ttl, $this->cacheProvider) = unserialize($str);
+        list($this->class, $this->name, $this->ttl) = unserialize($str);
 
         $this->reflection = new \ReflectionMethod($this->class, $this->name);
         $this->reflection->setAccessible(true);

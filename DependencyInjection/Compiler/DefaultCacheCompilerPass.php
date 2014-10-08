@@ -32,40 +32,9 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        $this->loadMetadataCacheProvider($container);
-        $this->loadCacheableCacheProvider($container);
+        //$this->loadMetadataCacheProvider($container);
+        //$this->loadCacheableCacheProvider($container);
         $this->loadCachedServices($container);
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    protected function loadMetadataCacheProvider(ContainerBuilder $container)
-    {
-        if($container->hasParameter('kairos_cache.metadata_default.cache_provider')) {
-            $doctrineCacheAdpater = new Definition('Metadata\\Cache\\DoctrineCacheAdapter',  array('metadata', $container->getDefinition(substr($container->getParameter('kairos_cache.metadata_default.cache_provider'), 1))));
-            $container->setDefinition('kairos_cache.default_metadata_cache', $doctrineCacheAdpater);
-        }
-        else {
-            $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array($container->getParameter('kairos_cache.metadata_default.cache_dir')));
-            $doctrineCacheAdpater = new Definition('Metadata\\Cache\\DoctrineCacheAdapter',  array('metadata', $defaultCacheDefinition));
-            $container->setDefinition('kairos_cache.default_metadata_cache', $doctrineCacheAdpater);
-        }
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    protected function loadCacheableCacheProvider(ContainerBuilder $container)
-    {
-
-        if($container->hasParameter('kairos_cache.cacheable_default.cache_provider')) {
-            $container->setAlias('kairos_cache.default_cache', substr($container->getParameter('kairos_cache.cacheable_default.cache_provider'), 1));
-        }
-        else {
-            $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array($container->getParameter('kairos_cache.cacheable_default.cache_dir')));
-            $container->setDefinition('kairos_cache.default_cache', $defaultCacheDefinition);
-        }
     }
 
 
@@ -86,13 +55,19 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
 
             $defaultTTL = $container->hasParameter('kairos_cache.cacheable_default.default_ttl') ? $container->getParameter('kairos_cache.cacheable_default.default_ttl') : null ;
 
-            $defaultCache = $container->findDefinition('kairos_cache.default_cache');
             $metadata = $metadataFactory->getMetadataForClass($className);
+            //if(!is_null($metadata->cacheProvider) && $container->hasDefinition($metadata->cacheProvider)) {
+            if(!is_null($metadata->cacheProvider)) {
+                $cache = $container->findDefinition($metadata->cacheProvider);
+            }
+            else {
+                $cache = $container->findDefinition('kairos_cache.default_cache');
+            }
 
             $definition = new Definition('Kairos\CacheBundle\Service\CacheableProxyService',
                 array(
                     $metadata,
-                    $defaultCache,
+                    $cache,
                     $serviceDefinition,
                     $defaultTTL
                 )

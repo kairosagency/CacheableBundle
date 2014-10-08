@@ -1,0 +1,7 @@
+Kairos\CacheBundle\Tests\TestClasses\YamlTestClassBis:
+    methods:
+        coucou:
+            ttl: 3600
+
+        coucou2:
+            ttl: 3601

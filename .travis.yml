@@ -11,7 +11,10 @@ matrix:
     - php: hhvm
 
 before_script:
-  - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - phpenv rehash
   - composer install --dev
-  - mkdir Snc && ln -s ../ Snc/RedisBundle
+
+script: php ./vendor/bin/phpunit --coverage-clover=coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
