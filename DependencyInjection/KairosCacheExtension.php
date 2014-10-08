@@ -70,7 +70,8 @@ class KairosCacheExtension extends Extension
         $loader->load('metadataFactory.xml');
         $this->loadMetadataCacheService($rootConfig, $container);
         $this->loadResultCacheService($rootConfig, $container);
-        $this->getYamlDirectories($rootConfig, $container);
+        $this->getYamlDirectories($rootConfig);
+
         if($rootConfig['debug']) {
             $container->getDefinition('kairos_cache.metadata_factory')->removeMethodCall('setCache');
         }
