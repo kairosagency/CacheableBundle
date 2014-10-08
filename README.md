@@ -124,7 +124,7 @@ No step three
 
 ## More dicumentation ##
 
-[More](./blob/master/Docs/FULLCONFIG.md)
+[More](./Docs/FULLCONFIG.md)
 
 ## License ##
 
