@@ -44,7 +44,7 @@ class AppKernel extends Kernel
 ```
 
 
-And you can setup a minimal config in your config.yml :
+Minimal/optional config for your config.yml :
 
 ```
 kairos_cache: ~
