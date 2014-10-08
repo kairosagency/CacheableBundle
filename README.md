@@ -6,7 +6,8 @@ Todo
 
 ## Documentation ##
 
+Todo
 
 ## License ##
 
-See [Resources/meta/LICENSE](https://github.com/snc/SncRedisBundle/blob/master/Resources/meta/LICENSE).
+Todo
