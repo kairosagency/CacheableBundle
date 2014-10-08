@@ -10,7 +10,6 @@ namespace Kairos\CacheBundle\Service;
 
 use Doctrine\Common\Cache\Cache;
 use Metadata\ClassMetadata;
-use Metadata\MergeableClassMetadata;
 use Metadata\MetadataFactory;
 
 class CacheableProxyService {
@@ -26,7 +25,7 @@ class CacheableProxyService {
     protected $defaultCacheProvider;
 
     /**
-     * @var MergeableClassMetadata
+     * @var ClassMetadata
      */
     protected $classMetadata;
 
@@ -74,10 +73,9 @@ class CacheableProxyService {
             else {
                 $res = call_user_func(array($this->service, $name), $arguments);
 
-                $ttl = null;
                 if(!is_null($methodMetadata->ttl))
                     $ttl = $methodMetadata->ttl;
-                else if(!is_null($this->defaultTTl))
+                elseif(!is_null($this->defaultTTl))
                     $ttl = $this->defaultTTl;
                 else
                     throw new \Exception("At least one tll (default ttl or method ttl) should be set");
