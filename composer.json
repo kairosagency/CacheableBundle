@@ -1,10 +1,10 @@
 {
-    "name": "snc/redis-bundle",
+    "name": "kairos/cachebundle",
     "type": "symfony-bundle",
-    "description": "A Redis bundle for Symfony2",
-    "keywords": ["redis", "nosql", "symfony"],
-    "homepage": "https://github.com/snc/SncRedisBundle",
-    "license": "MIT",
+    "description": "A simple cache bundle for Symfony2",
+    "keywords": ["symfony"],
+    "homepage": "https://github.com/t0k4rt/CacheBundle",
+    "license": "MPL-2.0",
     "authors": [{
         "name": "Henrik Westphal",
         "email": "henrik.westphal@gmail.com"
@@ -21,8 +21,7 @@
         "symfony/framework-bundle": "~2.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.3.0",
-        "symfony/console": ">=2.1,<3.0"
+        "phpunit/phpunit": "~4.3.0"
     },
     "suggest": {
         "doctrine/doctrine-cache-bundle": "Use all the cache providers you want that are provided by doctrine cache."
@@ -30,10 +29,10 @@
     "autoload": {
         "psr-0": { "Kairos\\CacheBundle": "" }
     },
-    "target-dir": "Snc/RedisBundle",
+    "target-dir": "Kairos/CacheBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev"
+            "dev-master": "1.0.x-dev"
         }
     }
 }
