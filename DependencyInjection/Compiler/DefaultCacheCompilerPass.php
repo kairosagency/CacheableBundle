@@ -29,8 +29,6 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
 
     public function process(ContainerBuilder $container)
     {
-        //$this->loadMetadataCacheProvider($container);
-        //$this->loadCacheableCacheProvider($container);
         $this->loadCachedServices($container);
     }
 
@@ -53,7 +51,7 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
             $defaultTTL = $container->hasParameter('kairos_cache.cacheable_default.default_ttl') ? $container->getParameter('kairos_cache.cacheable_default.default_ttl') : null ;
 
             $metadata = $metadataFactory->getMetadataForClass($className);
-            //if(!is_null($metadata->cacheProvider) && $container->hasDefinition($metadata->cacheProvider)) {
+
             if(!is_null($metadata->cacheProvider)) {
                 $cache = $container->findDefinition($metadata->cacheProvider);
             }
