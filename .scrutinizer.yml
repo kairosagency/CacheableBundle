@@ -1,5 +1,5 @@
 filter:
-    excluded_paths: [vendor/*]
+    excluded_paths: [vendor/*, Tests/*]
 
 tools:
     php_pdepend: true
