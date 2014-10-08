@@ -41,4 +41,4 @@ class CacheableResultYamlDriver extends AbstractFileDriver {
     {
         return 'yml';
     }
-} 
+}

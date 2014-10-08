@@ -12,7 +12,6 @@ use Doctrine\Common\Cache\Cache;
 use Metadata\ClassMetadata;
 use Metadata\MergeableClassMetadata;
 use Metadata\MetadataFactory;
-use Symfony\Component\DependencyInjection\Definition;
 
 class CacheableProxyService {
 
@@ -96,4 +95,4 @@ class CacheableProxyService {
         trigger_error('Call to undefined method '.$this->classMetadata->name.'::'.$name.'()', E_USER_ERROR);
     }
 
-} 
+}

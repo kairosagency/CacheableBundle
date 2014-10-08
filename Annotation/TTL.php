@@ -26,4 +26,4 @@ class TTL {
     {
         $this->ttl = isset($data['value']) ? (int) $data['value']:0;
     }
-} 
+}

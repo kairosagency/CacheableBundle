@@ -26,4 +26,4 @@ class CacheProvider {
     {
         $this->cacheProvider = isset($data['value']) ? (string) $data['value']:null;
     }
-} 
+}
