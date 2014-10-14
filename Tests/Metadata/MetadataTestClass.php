@@ -6,8 +6,8 @@
  * Time: 10:58
  */
 
-namespace Kairos\CacheBundle\Tests\Metadata;
-use Kairos\CacheBundle\Annotation\CacheProviderAnnotation;
+namespace Kairos\CacheableBundle\Tests\Metadata;
+use Kairos\CacheableBundle\Annotation\CacheProviderAnnotation;
 
 
 

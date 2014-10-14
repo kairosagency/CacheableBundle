@@ -17,7 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Kairos\CacheBundle\DependencyInjection\Compiler;
+namespace Kairos\CacheableBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -59,7 +59,7 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
                 $cache = $container->findDefinition('kairos_cache.default_cache');
             }
 
-            $definition = new Definition('Kairos\CacheBundle\Service\CacheableProxyService',
+            $definition = new Definition('Kairos\CacheableBundle\Service\CacheableProxyService',
                 array(
                     $metadata,
                     $cache,

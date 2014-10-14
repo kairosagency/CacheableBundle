@@ -9,16 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Kairos\CacheBundle;
+namespace Kairos\CacheableBundle;
 
-use Kairos\CacheBundle\DependencyInjection\Compiler\DefaultCacheCompilerPass;
+use Kairos\CacheableBundle\DependencyInjection\Compiler\DefaultCacheCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * SncRedisBundle
  */
-class KairosCacheBundle extends Bundle
+class KairosCacheableBundle extends Bundle
 {
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container

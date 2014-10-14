@@ -17,7 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Kairos\CacheBundle\DependencyInjection;
+namespace Kairos\CacheableBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Kairos\CacheBundle\Lib\Utils;
+use Kairos\CacheableBundle\Lib\Utils;
 
 /**
  * Cache Bundle Extension
@@ -34,7 +34,7 @@ use Kairos\CacheBundle\Lib\Utils;
  * @author Fabio B. Silva <fabio.bat.silva@gmail.com>
  * @author Danilo Cabello <danilo.cabello@gmail.com>
  */
-class KairosCacheExtension extends Extension
+class KairosCacheableExtension extends Extension
 {
 
     /**
@@ -121,7 +121,7 @@ class KairosCacheExtension extends Extension
         if ($rootConfig['auto_detection']) {
             foreach ($bundles as $name => $class) {
                 $ref = new \ReflectionClass($class);
-                $directories[$ref->getNamespaceName()] = dirname($ref->getFileName()).'/Resources/config/cachebundle';
+                $directories[$ref->getNamespaceName()] = dirname($ref->getFileName()).'/Resources/config/cacheablebundle';
             }
         }
 

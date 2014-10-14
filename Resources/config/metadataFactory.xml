@@ -8,8 +8,8 @@
         <parameter key="kairos_cache.metadata.driver_chain.class">Metadata\Driver\DriverChain</parameter>
         <parameter key="kairos_cache.filesystem.class">Doctrine\Common\Cache\FilesystemCache</parameter>
 
-        <parameter key="kairos_cache.metadata.annotation_driver.class">Kairos\CacheBundle\Metadata\Driver\CacheableResultAnnotationDriver</parameter>
-        <parameter key="kairos_cache.metadata.yaml_driver.class">Kairos\CacheBundle\Metadata\Driver\CacheableResultYamlDriver</parameter>
+        <parameter key="kairos_cache.metadata.annotation_driver.class">Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver</parameter>
+        <parameter key="kairos_cache.metadata.yaml_driver.class">Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver</parameter>
     </parameters>
 
     <services>

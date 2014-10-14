@@ -6,13 +6,13 @@
  * Time: 16:25
  */
 
-namespace Kairos\CacheBundle\Metadata\Driver;
+namespace Kairos\CacheableBundle\Metadata\Driver;
 
-use Kairos\CacheBundle\Metadata\CacheProviderMetadata;
-use Kairos\CacheBundle\Metadata\TTLMetadata;
+use Kairos\CacheableBundle\Metadata\CacheProviderMetadata;
+use Kairos\CacheableBundle\Metadata\TTLMetadata;
 use Metadata\Driver\AbstractFileDriver;
 use Symfony\Component\Yaml\Yaml;
-use Kairos\CacheBundle\Lib\Utils;
+use Kairos\CacheableBundle\Lib\Utils;
 
 
 class CacheableResultYamlDriver extends AbstractFileDriver {

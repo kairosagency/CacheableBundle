@@ -1,4 +1,4 @@
-# CacheBundle #
+# CacheableBundle #
 
 ## Full bundle configuration ##
 

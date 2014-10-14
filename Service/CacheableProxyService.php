@@ -6,7 +6,7 @@
  * Time: 14:47
  */
 
-namespace Kairos\CacheBundle\Service;
+namespace Kairos\CacheableBundle\Service;
 
 use Doctrine\Common\Cache\Cache;
 use Metadata\ClassMetadata;

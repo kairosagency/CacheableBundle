@@ -1,4 +1,4 @@
-Kairos\CacheBundle\Tests\TestClasses\YamlTestClass:
+Kairos\CacheableBundle\Tests\TestClasses\YamlTestClass:
     cache_provider: @doctrine.test_cache
     methods:
         coucou:

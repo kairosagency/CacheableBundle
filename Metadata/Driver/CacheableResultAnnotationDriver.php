@@ -6,13 +6,13 @@
  * Time: 16:25
  */
 
-namespace Kairos\CacheBundle\Metadata\Driver;
+namespace Kairos\CacheableBundle\Metadata\Driver;
 
-use Kairos\CacheBundle\Metadata\CacheProviderMetadata;
-use Kairos\CacheBundle\Metadata\TTLMetadata;
+use Kairos\CacheableBundle\Metadata\CacheProviderMetadata;
+use Kairos\CacheableBundle\Metadata\TTLMetadata;
 use Metadata\Driver\DriverInterface;
 use Doctrine\Common\Annotations\Reader;
-use Kairos\CacheBundle\Lib\Utils;
+use Kairos\CacheableBundle\Lib\Utils;
 
 class CacheableResultAnnotationDriver implements DriverInterface {
     private $reader;
@@ -28,7 +28,7 @@ class CacheableResultAnnotationDriver implements DriverInterface {
 
         $classAnnotation = $this->reader->getClassAnnotation(
             $class,
-            'Kairos\\CacheBundle\\Annotation\\CacheProvider'
+            'Kairos\\CacheableBundle\\Annotation\\CacheProvider'
         );
 
         if (null !== $classAnnotation) {
@@ -41,7 +41,7 @@ class CacheableResultAnnotationDriver implements DriverInterface {
 
             $annotation = $this->reader->getMethodAnnotation(
                 $method,
-                'Kairos\\CacheBundle\\Annotation\\TTL'
+                'Kairos\\CacheableBundle\\Annotation\\TTL'
             );
 
             if (null !== $annotation) {

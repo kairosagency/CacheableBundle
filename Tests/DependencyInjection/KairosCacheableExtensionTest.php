@@ -9,17 +9,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Kairos\CacheBundle\Tests\DependencyInjection;
+namespace Kairos\CacheableBundle\Tests\DependencyInjection;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\Common\Cache\PhpFileCache;
 
-use Kairos\CacheBundle\DependencyInjection\Compiler\DefaultCacheCompilerPass;
-use Kairos\CacheBundle\DependencyInjection\KairosCacheExtension;
-use Kairos\CacheBundle\KairosCacheBundle;
-use Kairos\CacheBundle\Metadata\CacheableResultMetadata;
+use Kairos\CacheableBundle\DependencyInjection\Compiler\DefaultCacheCompilerPass;
+use Kairos\CacheableBundle\DependencyInjection\KairosCacheableExtension;
+use Kairos\CacheableBundle\KairosCacheableBundle;
 use Symfony\Bundle\FrameworkBundle\Tests\Functional\app\AppKernel;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
@@ -33,7 +32,7 @@ use Symfony\Component\Yaml\Parser;
 /**
  * SncRedisExtensionTest
  */
-class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
+class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @static
@@ -47,8 +46,8 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
             array('kairos_cache.metadata_factory.class', 'Metadata\MetadataFactory'),
             array('kairos_cache.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
             array('kairos_cache.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
-            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
-            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultYamlDriver'),
+            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
+            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver'),
             array('kairos_cache.metadata_default.cache_dir', __DIR__.'/../cache//kairosCache/metadata'),
             array('kairos_cache.cacheable_default.cache_dir', __DIR__.'/../cache//kairosCache/resultCache'),
         );
@@ -102,8 +101,8 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
             array('kairos_cache.metadata_factory.class', 'Metadata\MetadataFactory'),
             array('kairos_cache.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
             array('kairos_cache.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
-            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
-            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheBundle\Metadata\Driver\CacheableResultYamlDriver'),
+            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
+            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver'),
             array('kairos_cache.metadata_default.cache_dir', __DIR__.'/../cache//kairos2'),
             array('kairos_cache.cacheable_default.cache_dir', __DIR__.'/../cache//kairos1'),
         );
@@ -131,7 +130,7 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
     public static function testClassMetadata()
     {
         return array(
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClass',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\AnnotationTestClass',
                 array(
                     "cacheProvider" => "doctrine.test_cache",
                     "methodMetadata" => array(
@@ -140,7 +139,7 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClass',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\YamlTestClass',
                 array(
                     "cacheProvider" => "doctrine.test_cache",
                     "methodMetadata" => array(
@@ -149,7 +148,7 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClassBis',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\AnnotationTestClassBis',
                 array(
                     "cacheProvider" => null,
                     "methodMetadata" => array(
@@ -158,7 +157,7 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClassBis',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\YamlTestClassBis',
                 array(
                     "cacheProvider" => null,
                     "methodMetadata" => array(
@@ -223,22 +222,22 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
     public static function testClassicClassServices()
     {
         return array(
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClass',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\AnnotationTestClass',
                 array(
                     "cacheProvider" => "doctrine.test_cache"
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClass',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\YamlTestClass',
                 array(
                     "cacheProvider" => "doctrine.test_cache"
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClassBis',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\AnnotationTestClassBis',
                 array(
                     "cacheProvider" => "kairos_cache.default_cache"
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClassBis',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\YamlTestClassBis',
                 array(
                     "cacheProvider" => "kairos_cache.default_cache"
                 )
@@ -263,7 +262,7 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
         $container->compile();
 
         $cacheable = $container->get('kairos_cache.test_cacheable.cacheable');
-        $this->assertInstanceOf('Kairos\CacheBundle\Service\CacheableProxyService', $cacheable);
+        $this->assertInstanceOf('Kairos\CacheableBundle\Service\CacheableProxyService', $cacheable);
         $this->assertEquals($container->get($expected['cacheProvider']), $cacheable->getCache());
     }
 
@@ -276,22 +275,22 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
     public static function testFullClassServices()
     {
         return array(
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClass',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\AnnotationTestClass',
                 array(
                     "cacheProvider" => "doctrine.test_cache"
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClass',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\YamlTestClass',
                 array(
                     "cacheProvider" => "doctrine.test_cache"
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\AnnotationTestClassBis',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\AnnotationTestClassBis',
                 array(
                     "cacheProvider" => "test_cache_provider"
                 )
             ),
-            array('Kairos\\CacheBundle\\Tests\\TestClasses\\YamlTestClassBis',
+            array('Kairos\\CacheableBundle\\Tests\\TestClasses\\YamlTestClassBis',
                 array(
                     "cacheProvider" => "test_cache_provider"
                 )
@@ -316,7 +315,7 @@ class KairosCacheExtensionTest extends \PHPUnit_Framework_TestCase
         $container->compile();
 
         $cacheable = $container->get('kairos_cache.test_cacheable.cacheable');
-        $this->assertInstanceOf('Kairos\CacheBundle\Service\CacheableProxyService', $cacheable);
+        $this->assertInstanceOf('Kairos\CacheableBundle\Service\CacheableProxyService', $cacheable);
 
         $actualCache = $cacheable->getCache();
         $containerCache = $container->get($expected['cacheProvider']);
@@ -353,9 +352,9 @@ kairos_cache:
         cache_dir: %kernel.cache_dir%/kairos2
 
     directories:
-        KairosCacheBundle:
-            namespace_prefix: Kairos\CacheBundle
-            path: "@KairosCacheBundle/Tests/Resources/config/cache"
+        KairosCacheableBundle:
+            namespace_prefix: Kairos\CacheableBundle
+            path: "@KairosCacheableBundle/Tests/Resources/config/cache"
 EOF;
     }
 
@@ -374,9 +373,9 @@ kairos_cache:
         cache_dir: %kernel.cache_dir%/kairos22
 
     directories:
-        KairosCacheBundle:
-            namespace_prefix: Kairos\CacheBundle
-            path: "@KairosCacheBundle/Tests/Resources/config/cache"
+        KairosCacheableBundle:
+            namespace_prefix: Kairos\CacheableBundle
+            path: "@KairosCacheableBundle/Tests/Resources/config/cache"
 EOF;
     }
 
@@ -387,7 +386,7 @@ EOF;
         AnnotationRegistry::registerFile(__DIR__.'/../../Annotation/TTL.php');
         $container = new ContainerBuilder(new ParameterBag(array(
             'kernel.debug'       => false,
-            'kernel.bundles'     => array('KairosCacheBundle' => 'Kairos\CacheBundle\KairosCacheBundle'),
+            'kernel.bundles'     => array('KairosCacheableBundle' => 'Kairos\CacheableBundle\KairosCacheableBundle'),
             'kernel.cache_dir'   => __DIR__.'/../cache/',
             'kernel.environment' => 'test',
             'kernel.root_dir'    => __DIR__.'/../../' // src dir
@@ -399,7 +398,7 @@ EOF;
         $container->setDefinition('test_cache_provider', $defaultCacheDefinition);
         $container->setDefinition('doctrine.test_cache', $defaultCacheDefinition);
 
-        $extension = new KairosCacheExtension();
+        $extension = new KairosCacheableExtension();
         $container->registerExtension($extension);
 
 
@@ -421,7 +420,7 @@ EOF;
         AnnotationRegistry::registerFile(__DIR__.'/../../Annotation/TTL.php');
         $container = new ContainerBuilder(new ParameterBag(array(
             'kernel.debug'       => false,
-            'kernel.bundles'     => array('KairosCacheBundle' => 'Kairos\CacheBundle\KairosCacheBundle'),
+            'kernel.bundles'     => array('KairosCacheableBundle' => 'Kairos\CacheableBundle\KairosCacheableBundle'),
             'kernel.cache_dir'   => __DIR__.'/../cache/',
             'kernel.environment' => 'test',
             'kernel.root_dir'    => __DIR__.'/../../' // src dir
@@ -433,7 +432,7 @@ EOF;
         $container->setDefinition('test_cache_provider', $defaultCacheDefinition);
         $container->setDefinition('doctrine.test_cache', $defaultCacheDefinition);
 
-        $extension = new KairosCacheExtension();
+        $extension = new KairosCacheableExtension();
         $container->registerExtension($extension);
 
 

@@ -17,7 +17,7 @@
  * <http://www.doctrine-project.org>.
  */
 
-namespace Kairos\CacheBundle\Lib;
+namespace Kairos\CacheableBundle\Lib;
 
 
 class Utils

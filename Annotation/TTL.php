@@ -6,7 +6,7 @@
  * Time: 16:12
  */
 
-namespace Kairos\CacheBundle\Annotation;
+namespace Kairos\CacheableBundle\Annotation;
 
 /**
  * @Annotation

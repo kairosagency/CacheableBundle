@@ -6,8 +6,8 @@
  * Time: 10:58
  */
 
-namespace Kairos\CacheBundle\Tests\TestClasses;
-use Kairos\CacheBundle\Annotation as KairosCache;
+namespace Kairos\CacheableBundle\Tests\TestClasses;
+use Kairos\CacheableBundle\Annotation as KairosCache;
 
 
 /**

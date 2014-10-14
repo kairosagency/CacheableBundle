@@ -1,9 +1,9 @@
 {
-    "name": "kairos/cachebundle",
+    "name": "kairos/cacheablebundle",
     "type": "symfony-bundle",
     "description": "A simple cache bundle for Symfony2",
     "keywords": ["symfony"],
-    "homepage": "https://github.com/t0k4rt/CacheBundle",
+    "homepage": "https://github.com/t0k4rt/CacheableBundle",
     "license": "MPL-2.0",
     "authors": [{
         "name": "Henrik Westphal",
@@ -27,9 +27,9 @@
         "doctrine/doctrine-cache-bundle": "Use all the cache providers you want that are provided by doctrine cache."
     },
     "autoload": {
-        "psr-0": { "Kairos\\CacheBundle": "" }
+        "psr-0": { "Kairos\\CacheableBundle": "" }
     },
-    "target-dir": "Kairos/CacheBundle",
+    "target-dir": "Kairos/CacheableBundle",
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"

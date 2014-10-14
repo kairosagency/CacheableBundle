@@ -1,4 +1,4 @@
-# CacheBundle #
+# CacheableBundle #
 
 [![Build Status](https://travis-ci.org/t0k4rt/CacheBundle.svg?branch=master)](https://travis-ci.org/t0k4rt/CacheBundle)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/t0k4rt/CacheBundle/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/t0k4rt/CacheBundle/?branch=master)
@@ -7,7 +7,7 @@
 
 ## About ##
 
-Kairos CacheBundle provides easy result caching with annotation or yaml configuration.
+Kairos CacheableBundle provides easy result caching with annotation or yaml configuration.
 It is aimed at easing the caching of results from any methods in your code.
 
 You can cache api call results, doctrine results or any methods that sends you some data.
@@ -21,7 +21,7 @@ Install the bundle via composer :
 ```json
 "require": {
     ...
-    "kairos/cachebundle": "*",
+    "kairos/cacheablebundle": "*",
     ...
 }
 ```
@@ -35,7 +35,7 @@ class AppKernel extends Kernel
     {
         $bundles = array(
             ...
-            new Kairos\CacheBundle\KairosCacheBundle(),
+            new Kairos\CacheableBundle\KairosCacheableBundle(),
             ...
         );
     ....
@@ -69,11 +69,11 @@ services:
 
 * With annotation :
 
-Don't forget the "use Kairos\CacheBundle\Annotation as KairosCache" statement.
+Don't forget the "use Kairos\CacheableBundle\Annotation as KairosCache" statement.
 
 ```php
 
-use Kairos\CacheBundle\Annotation as KairosCache;
+use Kairos\CacheableBundle\Annotation as KairosCache;
 
 /**
  * If you want to use a custom cache provider setup one, otherwise the bundle use a default filesystem

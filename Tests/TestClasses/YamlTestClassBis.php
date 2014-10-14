@@ -6,7 +6,7 @@
  * Time: 10:58
  */
 
-namespace Kairos\CacheBundle\Tests\TestClasses;
+namespace Kairos\CacheableBundle\Tests\TestClasses;
 
 
 

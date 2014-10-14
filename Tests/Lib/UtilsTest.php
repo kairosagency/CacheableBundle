@@ -6,11 +6,11 @@
  * Time: 10:58
  */
 
-namespace Kairos\CacheBundle\Tests\Lib;
+namespace Kairos\CacheableBundle\Tests\Lib;
 
 
 
-use Kairos\CacheBundle\Lib\Utils;
+use Kairos\CacheableBundle\Lib\Utils;
 
 class UtilsTest extends \PHPUnit_Framework_TestCase
 {

@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Kairos\CacheBundle\DataCollector;
+namespace Kairos\CacheableBundle\DataCollector;
 
-use Kairos\CacheBundle\Logger\RedisLogger;
+use Kairos\CacheableBundle\Logger\RedisLogger;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

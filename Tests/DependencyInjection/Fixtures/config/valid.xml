@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:redis="http://symfony.com/schema/dic/redis" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd http://symfony.com/schema/dic/redis http://symfony.com/schema/dic/redis/redis-1.0.xsd">
     <redis:config>
-        <redis:class doctrine-cache="Kairos\CacheBundle\Doctrine\Cache\RedisSetCache" />
+        <redis:class doctrine-cache="Kairos\CacheableBundle\Doctrine\Cache\RedisSetCache" />
         <redis:client alias="default" logging="true" type="predis">
             <redis:dsn>redis://localhost</redis:dsn>
-            <redis:options connection-async="true" connection-persistent="true" connection-timeout="66" read-write-timeout="123" cluster="Kairos\CacheBundle\Client\Predis\Connection\PredisCluster" iterable-multibulk="true" profile="2.6" throw-errors="true" prefix="true" />
+            <redis:options connection-async="true" connection-persistent="true" connection-timeout="66" read-write-timeout="123" cluster="Kairos\CacheableBundle\Client\Predis\Connection\PredisCluster" iterable-multibulk="true" profile="2.6" throw-errors="true" prefix="true" />
         </redis:client>
         <redis:client alias="cluster" type="phpredis">
             <redis:dsn>redis://localhost</redis:dsn>
