@@ -62,14 +62,14 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
 
             $definition = new Definition('Kairos\CacheableBundle\Service\CacheableProxyService',
                 array(
-                    $metadata,
                     $cache,
                     $serviceDefinition,
                     $defaultTTL
                 )
             );
 
-            //$definition->addMethodCall('setMetadata', $metadata);
+            $definition->addMethodCall('setMetadata', $metadata);
+
             $container->setDefinition($id.'.cacheable', $definition);
         }
     }
