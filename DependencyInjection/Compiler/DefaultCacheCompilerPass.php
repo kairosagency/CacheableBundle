@@ -68,7 +68,7 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
                 )
             );
 
-            $definition->addMethodCall('setMetadata', $metadata);
+            $definition->addMethodCall('setMetadata', array($metadata));
 
             $container->setDefinition($id.'.cacheable', $definition);
         }
