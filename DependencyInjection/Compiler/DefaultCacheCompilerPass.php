@@ -22,6 +22,7 @@ namespace Kairos\CacheableBundle\DependencyInjection\Compiler;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 
 class DefaultCacheCompilerPass implements CompilerPassInterface
@@ -52,11 +53,11 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
 
             $metadata = $metadataFactory->getMetadataForClass($className);
 
-            if(!is_null($metadata->cacheProvider)) {
-                $cache = $container->findDefinition($metadata->cacheProvider);
+            if(is_null($metadata->cacheProvider)) {
+                $cache = new Reference('kairos_cacheable.default_cache');
             }
             else {
-                $cache = $container->findDefinition('kairos_cacheable.default_cache');
+                $cache = $metadata->cacheProvider;
             }
 
             $definition = new Definition('Kairos\CacheableBundle\Service\CacheableProxyService',
@@ -67,6 +68,8 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
                     $defaultTTL
                 )
             );
+
+            //$definition->addMethodCall('setMetadata', $metadata);
             $container->setDefinition($id.'.cacheable', $definition);
         }
     }

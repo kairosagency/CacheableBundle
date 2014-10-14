@@ -8,11 +8,13 @@
 
 namespace Kairos\CacheableBundle\Metadata\Driver;
 
+use Kairos\CacheableBundle\Annotation\CacheProvider;
 use Kairos\CacheableBundle\Metadata\CacheProviderMetadata;
 use Kairos\CacheableBundle\Metadata\TTLMetadata;
 use Metadata\Driver\DriverInterface;
 use Doctrine\Common\Annotations\Reader;
 use Kairos\CacheableBundle\Lib\Utils;
+use Symfony\Component\DependencyInjection\Reference;
 
 class CacheableResultAnnotationDriver implements DriverInterface {
     private $reader;
@@ -33,7 +35,7 @@ class CacheableResultAnnotationDriver implements DriverInterface {
 
         if (null !== $classAnnotation) {
             // a "@DefaultValue" annotation was found
-            $classMetadata->cacheProvider = Utils::normalizeServiceId($classAnnotation->cacheProvider);
+            $classMetadata->cacheProvider = !is_null($classAnnotation->cacheProvider) ? new Reference(Utils::normalizeServiceId($classAnnotation->cacheProvider)) : null;
         }
 
         foreach ($class->getMethods() as $method) {
@@ -47,9 +49,8 @@ class CacheableResultAnnotationDriver implements DriverInterface {
             if (null !== $annotation) {
                 // a "@DefaultValue" annotation was found
                 $metadata->ttl = $annotation->ttl;
+                $classMetadata->addMethodMetadata($metadata);
             }
-
-            $classMetadata->addMethodMetadata($metadata);
         }
 
         return $classMetadata;

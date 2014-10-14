@@ -11,6 +11,7 @@ namespace Kairos\CacheableBundle\Metadata\Driver;
 use Kairos\CacheableBundle\Metadata\CacheProviderMetadata;
 use Kairos\CacheableBundle\Metadata\TTLMetadata;
 use Metadata\Driver\AbstractFileDriver;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Yaml\Yaml;
 use Kairos\CacheableBundle\Lib\Utils;
 
@@ -25,7 +26,7 @@ class CacheableResultYamlDriver extends AbstractFileDriver {
 
         if(isset($data[$class->getName()]) && isset($data[$class->getName()]['methods']) && $methods = $data[$class->getName()]['methods'])
         {
-            $classMetadata->cacheProvider = isset($data[$class->getName()]['cache_provider'])?  Utils::normalizeServiceId($data[$class->getName()]['cache_provider']) : null;
+            $classMetadata->cacheProvider = isset($data[$class->getName()]['cache_provider'])?  new Reference(Utils::normalizeServiceId($data[$class->getName()]['cache_provider'])) : null;
 
             foreach ($methods as $methodName => $value) {
                 $methodMetadata = new TTLMetadata($class->getName(), $methodName);

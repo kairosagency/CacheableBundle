@@ -154,7 +154,7 @@ class KairosCacheableExtension extends Extension
      * @param array $config
      * @param array $map
      */
-    protected function remapParameters(array $config, array $map)
+    private function remapParameters(array $config, array $map)
     {
         foreach ($map as $name => $paramName) {
             if (array_key_exists($name, $config)) {
@@ -167,7 +167,7 @@ class KairosCacheableExtension extends Extension
      * @param array $config
      * @param array $namespaces
      */
-    protected function remapParametersNamespaces(array $config, array $namespaces)
+    private function remapParametersNamespaces(array $config, array $namespaces)
     {
         foreach ($namespaces as $ns => $map) {
             if ($ns) {

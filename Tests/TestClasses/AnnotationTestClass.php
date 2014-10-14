@@ -32,4 +32,9 @@ class AnnotationTestClass {
     {
         return "coucou2";
     }
+
+    public function coucou3()
+    {
+        return "coucou3";
+    }
 }

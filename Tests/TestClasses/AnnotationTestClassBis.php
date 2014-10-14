@@ -29,4 +29,9 @@ class AnnotationTestClassBis {
     {
         return "coucou2";
     }
+
+    public function coucou3()
+    {
+        return "coucou3";
+    }
 }

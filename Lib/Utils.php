@@ -19,6 +19,7 @@
 
 namespace Kairos\CacheableBundle\Lib;
 
+use Symfony\Component\DependencyInjection\Definition;
 
 class Utils
 {
@@ -42,6 +43,22 @@ class Utils
         }
 
         return $serviceId;
+    }
+
+    /**
+     * @param $value
+     * @return Definition
+     */
+    public static function convertValue($value)
+    {
+        if (is_string($value) && '@' === $value[0]) {
+            $def = new Definition('Symfony\Component\DependencyInjection\Reference');
+            $def->addArgument(substr($value, 1));
+
+            return $def;
+        }
+
+        return $value;
     }
 
 }
