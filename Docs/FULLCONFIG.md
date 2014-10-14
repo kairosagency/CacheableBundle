@@ -3,7 +3,7 @@
 ## Full bundle configuration ##
 
 ```
-kairos_cache:
+kairos_cacheable:
     debug: true|false               # disable metadata cache (annotation and yaml files are put in cache)
     cacheable_default:
         ttl: integer                # default ttl if no ttl is set

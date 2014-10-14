@@ -19,7 +19,7 @@ class MetadataTestClass {
     public $name;
 
     /**
-     * @CacheableResult(ttl=1800, cache_provider=@kairos_cache.default_cache)
+     * @CacheableResult(ttl=1800, cache_provider=@kairos_cacheable.default_cache)
      */
     public function coucou()
     {

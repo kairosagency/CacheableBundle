@@ -3,45 +3,45 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="kairos_cache.metadata_factory.class">Metadata\MetadataFactory</parameter>
-        <parameter key="kairos_cache.metadata.file_locator_class">Metadata\Driver\FileLocator</parameter>
-        <parameter key="kairos_cache.metadata.driver_chain.class">Metadata\Driver\DriverChain</parameter>
-        <parameter key="kairos_cache.filesystem.class">Doctrine\Common\Cache\FilesystemCache</parameter>
+        <parameter key="kairos_cacheable.metadata_factory.class">Metadata\MetadataFactory</parameter>
+        <parameter key="kairos_cacheable.metadata.file_locator_class">Metadata\Driver\FileLocator</parameter>
+        <parameter key="kairos_cacheable.metadata.driver_chain.class">Metadata\Driver\DriverChain</parameter>
+        <parameter key="kairos_cacheable.filesystem.class">Doctrine\Common\Cache\FilesystemCache</parameter>
 
-        <parameter key="kairos_cache.metadata.annotation_driver.class">Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver</parameter>
-        <parameter key="kairos_cache.metadata.yaml_driver.class">Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver</parameter>
+        <parameter key="kairos_cacheable.metadata.annotation_driver.class">Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver</parameter>
+        <parameter key="kairos_cacheable.metadata.yaml_driver.class">Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver</parameter>
     </parameters>
 
     <services>
 
         <!-- Parse annotation -->
-        <service id="kairos_cache.metadata.annotation_driver" class="%kairos_cache.metadata.annotation_driver.class%" public="false">
+        <service id="kairos_cacheable.metadata.annotation_driver" class="%kairos_cacheable.metadata.annotation_driver.class%" public="false">
             <argument type="service" id="annotation_reader" />
         </service>
 
 
         <!-- Yaml section : we use a file locator to get yaml files and then parse them -->
-        <service id="kairos_cache.metadata.file_locator" class="%kairos_cache.metadata.file_locator_class%">
+        <service id="kairos_cacheable.metadata.file_locator" class="%kairos_cacheable.metadata.file_locator_class%">
             <argument />
         </service>
 
-        <service id="kairos_cache.metadata.yaml_driver" class="%kairos_cache.metadata.yaml_driver.class%" public="false">
-            <argument type="service" id="kairos_cache.metadata.file_locator" />
+        <service id="kairos_cacheable.metadata.yaml_driver" class="%kairos_cacheable.metadata.yaml_driver.class%" public="false">
+            <argument type="service" id="kairos_cacheable.metadata.file_locator" />
         </service>
 
         <!-- Merge annotations and yaml results -->
-        <service id="kairos_cache.driver_chain" class="%kairos_cache.metadata.driver_chain.class%">
+        <service id="kairos_cacheable.driver_chain" class="%kairos_cacheable.metadata.driver_chain.class%">
             <argument type="collection">
-                <argument type="service" id="kairos_cache.metadata.yaml_driver" />
-                <argument type="service" id="kairos_cache.metadata.annotation_driver" />
+                <argument type="service" id="kairos_cacheable.metadata.yaml_driver" />
+                <argument type="service" id="kairos_cacheable.metadata.annotation_driver" />
             </argument>
         </service>
 
 
-        <service id="kairos_cache.metadata_factory" class="%kairos_cache.metadata_factory.class%">
-            <argument type="service" id="kairos_cache.driver_chain" />
+        <service id="kairos_cacheable.metadata_factory" class="%kairos_cacheable.metadata_factory.class%">
+            <argument type="service" id="kairos_cacheable.driver_chain" />
             <call method="setCache">
-                <argument type="service" id="kairos_cache.default_metadata_cache" />
+                <argument type="service" id="kairos_cacheable.default_metadata_cache" />
             </call>
         </service>
     </services>

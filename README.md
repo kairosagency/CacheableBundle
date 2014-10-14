@@ -47,7 +47,7 @@ class AppKernel extends Kernel
 Minimal/optional config for your config.yml :
 
 ```
-kairos_cache: ~
+kairos_cacheable: ~
 ```
 
 
@@ -55,14 +55,14 @@ kairos_cache: ~
 
 #### 1/ Create a tagged service ####
 
-Your Class must be a service tagged withe the name "kairos_cache.cacheable" :
+Your Class must be a service tagged withe the name "kairos_cacheable.cacheable" :
 
 ```
 services:
     your_cacheable_Service:
         class: \Cacheable_class
         tags:
-            -  { name: kairos_cache.cacheable }
+            -  { name: kairos_cacheable.cacheable }
 ```
 
 #### 2/ Setup cache parameters ####
@@ -110,7 +110,7 @@ YourCompany\Bundle\Fully\Qualified\Namespace\ClassName:
 Then register the directories where to find the yaml config files in your config.yml :
 
 ```
-kairos_cache:
+kairos_cacheable:
     directories:
         YourCompanyBundle:
             namespace_prefix: YourCompany\Bundle

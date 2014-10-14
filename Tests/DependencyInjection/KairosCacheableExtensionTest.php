@@ -42,14 +42,14 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
     public static function defaultParameterValues()
     {
         return array(
-            array('kairos_cache.filesystem.class', 'Doctrine\Common\Cache\FilesystemCache'),
-            array('kairos_cache.metadata_factory.class', 'Metadata\MetadataFactory'),
-            array('kairos_cache.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
-            array('kairos_cache.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
-            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
-            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver'),
-            array('kairos_cache.metadata_default.cache_dir', __DIR__.'/../cache//kairosCache/metadata'),
-            array('kairos_cache.cacheable_default.cache_dir', __DIR__.'/../cache//kairosCache/resultCache'),
+            array('kairos_cacheable.filesystem.class', 'Doctrine\Common\Cache\FilesystemCache'),
+            array('kairos_cacheable.metadata_factory.class', 'Metadata\MetadataFactory'),
+            array('kairos_cacheable.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
+            array('kairos_cacheable.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
+            array('kairos_cacheable.metadata.annotation_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
+            array('kairos_cacheable.metadata.yaml_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver'),
+            array('kairos_cacheable.metadata_default.cache_dir', __DIR__.'/../cache//kairosCache/metadata'),
+            array('kairos_cacheable.cacheable_default.cache_dir', __DIR__.'/../cache//kairosCache/resultCache'),
         );
     }
 
@@ -73,7 +73,7 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->getContainer($this->parseYaml($this->getMinimalYamlConfig()));
 
-        $defaultMetadataCache = $container->get('kairos_cache.default_metadata_cache');
+        $defaultMetadataCache = $container->get('kairos_cacheable.default_metadata_cache');
         $this->assertInstanceOf('Metadata\Cache\DoctrineCacheAdapter', $defaultMetadataCache);
     }
 
@@ -84,7 +84,7 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->getContainer($this->parseYaml($this->getMinimalYamlConfig()));
 
-        $defaultMetadataCache = $container->get('kairos_cache.default_cache');
+        $defaultMetadataCache = $container->get('kairos_cacheable.default_cache');
         $this->assertInstanceOf('Doctrine\Common\Cache\Cache', $defaultMetadataCache);
     }
 
@@ -97,14 +97,14 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
     public static function ClassicParameterValues()
     {
         return array(
-            array('kairos_cache.filesystem.class', 'Doctrine\Common\Cache\FilesystemCache'),
-            array('kairos_cache.metadata_factory.class', 'Metadata\MetadataFactory'),
-            array('kairos_cache.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
-            array('kairos_cache.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
-            array('kairos_cache.metadata.annotation_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
-            array('kairos_cache.metadata.yaml_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver'),
-            array('kairos_cache.metadata_default.cache_dir', __DIR__.'/../cache//kairos2'),
-            array('kairos_cache.cacheable_default.cache_dir', __DIR__.'/../cache//kairos1'),
+            array('kairos_cacheable.filesystem.class', 'Doctrine\Common\Cache\FilesystemCache'),
+            array('kairos_cacheable.metadata_factory.class', 'Metadata\MetadataFactory'),
+            array('kairos_cacheable.metadata.driver_chain.class', 'Metadata\Driver\DriverChain'),
+            array('kairos_cacheable.metadata.file_locator_class', 'Metadata\Driver\FileLocator'),
+            array('kairos_cacheable.metadata.annotation_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultAnnotationDriver'),
+            array('kairos_cacheable.metadata.yaml_driver.class', 'Kairos\CacheableBundle\Metadata\Driver\CacheableResultYamlDriver'),
+            array('kairos_cacheable.metadata_default.cache_dir', __DIR__.'/../cache//kairos2'),
+            array('kairos_cacheable.cacheable_default.cache_dir', __DIR__.'/../cache//kairos1'),
         );
     }
 
@@ -179,7 +179,7 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->getContainer($this->parseYaml($this->getClassicYamlConfig()));
 
-        $metadataFactory = $container->get('kairos_cache.metadata_factory');
+        $metadataFactory = $container->get('kairos_cacheable.metadata_factory');
         $metadata = $metadataFactory->getMetadataForClass($class);
 
         $this->assertEquals($expected["cacheProvider"], $metadata->cacheProvider);
@@ -201,7 +201,7 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $container = $this->getContainer($this->parseYaml($this->getFullYamlConfig()));
 
-        $metadataFactory = $container->get('kairos_cache.metadata_factory');
+        $metadataFactory = $container->get('kairos_cacheable.metadata_factory');
         $metadata = $metadataFactory->getMetadataForClass($class);
 
         $this->assertEquals($expected["cacheProvider"], $metadata->cacheProvider);
@@ -234,12 +234,12 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
             ),
             array('Kairos\\CacheableBundle\\Tests\\TestClasses\\AnnotationTestClassBis',
                 array(
-                    "cacheProvider" => "kairos_cache.default_cache"
+                    "cacheProvider" => "kairos_cacheable.default_cache"
                 )
             ),
             array('Kairos\\CacheableBundle\\Tests\\TestClasses\\YamlTestClassBis',
                 array(
-                    "cacheProvider" => "kairos_cache.default_cache"
+                    "cacheProvider" => "kairos_cacheable.default_cache"
                 )
             ),
         );
@@ -256,12 +256,12 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
         $container = $this->getUnbuiltContainer($this->parseYaml($this->getClassicYamlConfig()));
 
         $cacheableService = new Definition($class);
-        $cacheableService->addTag('kairos_cache.cacheable');
-        $container->setDefinition('kairos_cache.test_cacheable', $cacheableService);
+        $cacheableService->addTag('kairos_cacheable.cacheable');
+        $container->setDefinition('kairos_cacheable.test_cacheable', $cacheableService);
 
         $container->compile();
 
-        $cacheable = $container->get('kairos_cache.test_cacheable.cacheable');
+        $cacheable = $container->get('kairos_cacheable.test_cacheable.cacheable');
         $this->assertInstanceOf('Kairos\CacheableBundle\Service\CacheableProxyService', $cacheable);
         $this->assertEquals($container->get($expected['cacheProvider']), $cacheable->getCache());
     }
@@ -309,12 +309,12 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
         $container = $this->getUnbuiltContainer($this->parseYaml($this->getFullYamlConfig()));
 
         $cacheableService = new Definition($class);
-        $cacheableService->addTag('kairos_cache.cacheable');
-        $container->setDefinition('kairos_cache.test_cacheable', $cacheableService);
+        $cacheableService->addTag('kairos_cacheable.cacheable');
+        $container->setDefinition('kairos_cacheable.test_cacheable', $cacheableService);
 
         $container->compile();
 
-        $cacheable = $container->get('kairos_cache.test_cacheable.cacheable');
+        $cacheable = $container->get('kairos_cacheable.test_cacheable.cacheable');
         $this->assertInstanceOf('Kairos\CacheableBundle\Service\CacheableProxyService', $cacheable);
 
         $actualCache = $cacheable->getCache();
@@ -335,14 +335,14 @@ class KairosCacheableExtensionTest extends \PHPUnit_Framework_TestCase
     private function getMinimalYamlConfig()
     {
         return <<<'EOF'
-kairos_cache: ~
+kairos_cacheable: ~
 EOF;
     }
 
     private function getClassicYamlConfig()
     {
         return <<<'EOF'
-kairos_cache:
+kairos_cacheable:
     debug: true
     cacheable_default:
         ttl: 1800
@@ -361,7 +361,7 @@ EOF;
     private function getFullYamlConfig()
     {
         return <<<'EOF'
-kairos_cache:
+kairos_cacheable:
     debug: true
     cacheable_default:
         ttl: 1800
@@ -393,7 +393,7 @@ EOF;
         )));
 
         $container->set('annotation_reader', new AnnotationReader());
-        $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array(__DIR__.'/../cache/test_cache_provider'));
+        $defaultCacheDefinition = new Definition('%kairos_cacheable.filesystem.class%',  array(__DIR__.'/../cache/test_cache_provider'));
         $defaultCacheDefinition->addMethodCall('setNamespace', array('toto'));
         $container->setDefinition('test_cache_provider', $defaultCacheDefinition);
         $container->setDefinition('doctrine.test_cache', $defaultCacheDefinition);
@@ -427,7 +427,7 @@ EOF;
         )));
 
         $container->set('annotation_reader', new AnnotationReader());
-        $defaultCacheDefinition = new Definition('%kairos_cache.filesystem.class%',  array(__DIR__.'/../cache/test_cache_provider'));
+        $defaultCacheDefinition = new Definition('%kairos_cacheable.filesystem.class%',  array(__DIR__.'/../cache/test_cache_provider'));
         $defaultCacheDefinition->addMethodCall('setNamespace', array('toto'));
         $container->setDefinition('test_cache_provider', $defaultCacheDefinition);
         $container->setDefinition('doctrine.test_cache', $defaultCacheDefinition);

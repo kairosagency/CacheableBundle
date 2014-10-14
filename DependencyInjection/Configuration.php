@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('kairos_cache');
+        $rootNode = $treeBuilder->root('kairos_cacheable');
 
         $rootNode
             ->children()

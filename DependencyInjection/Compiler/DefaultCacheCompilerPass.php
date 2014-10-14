@@ -39,16 +39,16 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
     protected function loadCachedServices(ContainerBuilder $container)
     {
         $taggedServices = $container->findTaggedServiceIds(
-            'kairos_cache.cacheable'
+            'kairos_cacheable.cacheable'
         );
 
-        $metadataFactory = $container->get('kairos_cache.metadata_factory');
+        $metadataFactory = $container->get('kairos_cacheable.metadata_factory');
 
         foreach ($taggedServices as $id => $attributes) {
             $serviceDefinition = $container->getDefinition($id);
             $className = $serviceDefinition->getClass();
 
-            $defaultTTL = $container->hasParameter('kairos_cache.cacheable_default.default_ttl') ? $container->getParameter('kairos_cache.cacheable_default.default_ttl') : null ;
+            $defaultTTL = $container->hasParameter('kairos_cacheable.cacheable_default.default_ttl') ? $container->getParameter('kairos_cacheable.cacheable_default.default_ttl') : null ;
 
             $metadata = $metadataFactory->getMetadataForClass($className);
 
@@ -56,7 +56,7 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
                 $cache = $container->findDefinition($metadata->cacheProvider);
             }
             else {
-                $cache = $container->findDefinition('kairos_cache.default_cache');
+                $cache = $container->findDefinition('kairos_cacheable.default_cache');
             }
 
             $definition = new Definition('Kairos\CacheableBundle\Service\CacheableProxyService',
