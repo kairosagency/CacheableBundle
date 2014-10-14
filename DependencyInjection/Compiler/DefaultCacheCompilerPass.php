@@ -44,6 +44,7 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
         );
 
         $metadataFactory = $container->get('kairos_cacheable.metadata_factory');
+        $metadatFactoryReference = new Reference('kairos_cacheable.metadata_factory');
 
         foreach ($taggedServices as $id => $attributes) {
             $serviceDefinition = $container->getDefinition($id);
@@ -62,13 +63,13 @@ class DefaultCacheCompilerPass implements CompilerPassInterface
 
             $definition = new Definition('Kairos\CacheableBundle\Service\CacheableProxyService',
                 array(
+                    $metadatFactoryReference,
                     $cache,
                     $serviceDefinition,
+                    $className,
                     $defaultTTL
                 )
             );
-
-            $definition->addMethodCall('setMetadata', array($metadata));
 
             $container->setDefinition($id.'.cacheable', $definition);
         }

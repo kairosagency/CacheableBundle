@@ -38,9 +38,9 @@ class CacheableProxyService {
      * @param MetadataFactory $metadataFactory
      * @param Cache $cacheProvider
      */
-    public function __construct(Cache $defaultCacheProvider, $service, $defaultTTl)
+    public function __construct(MetadataFactory $metadataFactory, Cache $defaultCacheProvider, $service, $className, $defaultTTl)
     {
-        //$this->classMetadata = $classMetadata;
+        $this->classMetadata = $metadataFactory->getMetadataForClass($className);
         $this->defaultCacheProvider = $defaultCacheProvider;
         $this->defaultTTl = $defaultTTl;
         $this->service = $service;
@@ -51,10 +51,6 @@ class CacheableProxyService {
      */
     public function getCache() {
         return $this->defaultCacheProvider;
-    }
-
-    public function setMetadata(ClassMetadata $metadata) {
-        $this->classMetadata = $metadata;
     }
 
 
@@ -68,7 +64,6 @@ class CacheableProxyService {
         $callable = array($this->service, $name);
 
         if(isset($this->classMetadata->methodMetadata[$name]) && $methodMetadata = $this->classMetadata->methodMetadata[$name]) {
-
 
             $key = $name.md5($name.serialize($arguments));
             if($this->defaultCacheProvider->contains($key) && $res = $this->defaultCacheProvider->fetch($key)) {
