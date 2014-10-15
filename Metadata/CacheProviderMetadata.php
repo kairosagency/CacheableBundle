@@ -8,29 +8,49 @@
 namespace Kairos\CacheableBundle\Metadata;
 
 use Metadata\MergeableClassMetadata;
+use Symfony\Component\DependencyInjection\Reference;
 
 class CacheProviderMetadata extends MergeableClassMetadata
 {
     /**
-     * @var string $cacheProvider
+     * @var Reference $cacheProvider
      */
     public $cacheProvider;
 
 
     public function serialize()
     {
-        return serialize(
-            array(
-                $this->name,
-                $this->cacheProvider,
-            )
+        $toSerialize = array(
+            $this->name,
+            $this->methodMetadata,
+            $this->propertyMetadata,
+            $this->fileResources,
+            $this->createdAt,
+            array()
         );
+        if(!is_null($this->cacheProvider)) {
+            $toSerialize[5] = array(
+                $this->cacheProvider->__toString(),
+                $this->cacheProvider->getInvalidBehavior(),
+                $this->cacheProvider->isStrict(),
+            );
+        }
+        return serialize($toSerialize);
     }
 
     public function unserialize($str)
     {
-        list($this->name, $this->cacheProvider) = unserialize($str);
-
+        list(
+            $this->name,
+            $this->methodMetadata,
+            $this->propertyMetadata,
+            $this->fileResources,
+            $this->createdAt,
+            $cacheProvider
+            ) = unserialize($str);
+        if(!empty($cacheProvider)) {
+            $this->cacheProvider = new Reference($cacheProvider[0],$cacheProvider[1],$cacheProvider[2]);
+        }
         $this->reflection = new \ReflectionClass($this->name);
     }
 }

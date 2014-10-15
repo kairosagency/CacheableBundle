@@ -62,7 +62,6 @@ class CacheableProxyService {
     public function __call($name, $arguments)
     {
         $callable = array($this->service, $name);
-
         if(isset($this->classMetadata->methodMetadata[$name]) && $methodMetadata = $this->classMetadata->methodMetadata[$name]) {
 
             $key = $name.md5($name.serialize($arguments));
@@ -70,7 +69,7 @@ class CacheableProxyService {
                 return $res;
             }
             else {
-                $res = call_user_func(array($this->service, $name), $arguments);
+                $res = call_user_func_array(array($this->service, $name), $arguments);
 
                 if(!is_null($methodMetadata->ttl))
                     $ttl = $methodMetadata->ttl;
@@ -86,7 +85,7 @@ class CacheableProxyService {
         // use methode exists since it does not care about __call() unlike is_callable
         // see : http://fr2.php.net/manual/fr/function.method-exists.php#101507
         else if(method_exists($this->service, $name)) {
-            return call_user_func($callable, $arguments);
+            return call_user_func_array($callable, $arguments);
         }
 
         trigger_error('Call to undefined method '.$this->classMetadata->name.'::'.$name.'()', E_USER_ERROR);
